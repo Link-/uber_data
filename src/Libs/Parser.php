@@ -39,11 +39,23 @@ class Parser {
 
 	}
 
-	public function getDataTable() {
+	public function getDataTableContent() {
 
 		$table = $this->_DomDocument->getElementById('trips-table');
 
-		var_dump($table);
+		var_dump($this->getInnerHTML($table));
+
+	}
+
+	protected function getInnerHTML($node) {
+
+    $innerHTML= ''; 
+    $children = $node->childNodes; 
+    foreach ($children as $child) { 
+        $innerHTML .= $child->ownerDocument->saveXML( $child ); 
+    } 
+
+    return $innerHTML; 
 
 	}
 

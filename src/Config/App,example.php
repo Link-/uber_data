@@ -40,7 +40,16 @@ class App {
 		/**
 		 * Curl Request Timeout in seconds
 		 */
-		'curl_timeout' => 15
+		'curl_timeout' => 15,
+
+		/**
+		 * !! Important !!
+		 * 
+		 * Timezone -- It's very important for the date
+		 * handling and if set incorrectly, it might lead 
+		 * to wrong information generation
+		 */
+		'timeZone' => 'UTC'
 
 	];
 
