@@ -10,4 +10,4 @@ use UberCrawler\Libs\Parser as Parser;
 
 $p = new Parser(file_get_contents('/tmp/ubder-data/data-page_1.html'));
 $p->getNextPage();
-$p->getDataTableContent();
+print_r($p->parseDataTable());

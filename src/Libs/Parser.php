@@ -1,17 +1,54 @@
 <?php namespace UberCrawler\Libs;
 
+use UberCrawler\Libs\TripsCollection as TripsCollection;
+
+/**
+ * 
+ */
 class Parser {
 
+	/**
+	 * [$_currentPage description]
+	 *
+	 * @var [type]
+	 */
 	protected $_currentPage;
-
+	/**
+	 * [$_nextPage description]
+	 *
+	 * @var [type]
+	 */
 	protected $_nextPage;
-
+	/**
+	 * [$_rawHTMLData description]
+	 *
+	 * @var [type]
+	 */
 	protected $_rawHTMLData;
-
+	/**
+	 * [$_DomDocument description]
+	 *
+	 * @var [type]
+	 */
 	protected $_DomDocument;
-
+	/**
+	 * [$_DomXPath description]
+	 *
+	 * @var [type]
+	 */
 	protected $_DomXPath;
+	/**
+	 * [$_tripsCollection description]
+	 *
+	 * @var [type]
+	 */
+	protected $_tripsCollection;
 
+	/**
+	 * [__construct description]
+	 *
+	 * @param string $html [description]
+	 */
 	public function __construct($html = '') {
 
 		$this->_DomDocument = new \DOMDocument;
@@ -19,8 +56,19 @@ class Parser {
 		if (!empty($html))
 			$this->loadHTML($html);
 
+		// Get an instance of TripsCollection Object
+		$this->_tripsCollection = new TripsCollection();
+
 	}
 
+
+	/**
+	 * [loadHTML description]
+	 *
+	 * @param [type] $html [description]
+	 *
+	 * @return [type] [description]
+	 */
 	public function loadHTML($html) {
 
 		$this->_rawHTMLData = $html;
@@ -29,6 +77,12 @@ class Parser {
 
 	}
 
+
+	/**
+	 * [getNextPage description]
+	 *
+	 * @return [type] [description]
+	 */
 	public function getNextPage() {
 
 		$nodes = $this->_DomXPath->query("//*[contains(concat(' ', normalize-space(@class), ' '), ' pagination__next ')]");
@@ -39,14 +93,48 @@ class Parser {
 
 	}
 
-	public function getDataTableContent() {
 
-		$table = $this->_DomDocument->getElementById('trips-table');
+	/**
+	 * [parseDataTable description]
+	 *
+	 * @return [type] [description]
+	 */
+	public function parseDataTable() {
+		
+		// Get the elements with the class name 'trip-expand__origin'
+		// the trip details are containing inside those <td> elements
+		$nodes = $this->_DomXPath->query("//*[contains(concat(' '," . 
+		                                 " normalize-space(@class), ' '), '" .
+		                                 " trip-expand__origin ')]");
 
-		var_dump($this->getInnerHTML($table));
+		// Parse the elements and get the details
+		// the structure is complicated
+		// review the Uber details page to understand
+		// what's happening here
+		foreach($nodes as $node) {
+			$tripD = new TripDetails();
+			$tripA = [];
+			foreach($node->childNodes as $child) {
+				if (!empty($child->textContent))
+					array_push($tripA, $child->textContent);
+			}
+			// Set the trip details
+			$tripD->setTripDetails($tripA);
+			// Add the trip to the Collection
+			$this->_tripsCollection->addTrip($tripD);
+		}
 
+		return $this->_tripsCollection;
 	}
 
+
+	/**
+	 * [getInnerHTML description]
+	 *
+	 * @param [type] $node [description]
+	 *
+	 * @return [type] [description]
+	 */
 	protected function getInnerHTML($node) {
 
     $innerHTML= ''; 

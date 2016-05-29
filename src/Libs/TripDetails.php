@@ -47,29 +47,8 @@ class TripDetails {
 
   /**
    * [__construct description]
-   *
-   * @param [type] $date   [description]
-   * @param [type] $driver [description]
-   * @param [type] $fare   [description]
-   * @param [type] $type   [description]
-   * @param [type] $city   [description]
-   * @param [type] $mapUrl [description]
    */
-  public function __construct($date, 
-                              $driver, 
-                              $fare, 
-                              $type, 
-                              $city, 
-                              $mapUrl) {
-
-    $this->_driverName  = $driver;
-    $this->_fareValue   = $fare;
-    $this->_type        = $type;
-    $this->_city        = $city;
-    $this->_mapUrl      = $mapUrl;
-    $this->setPickupDate($date);
-
-  }
+  public function __construct() { }
 
 
   /**
@@ -87,7 +66,7 @@ class TripDetails {
     // Set the default timezone
     date_default_timezone_set(App::$APP_SETTINGS['timezone']);
     // Get a DateTime instance
-    $this->_pickupDate = DateTime::createFromFormat('m/d/y', $date);
+    $this->_pickupDate = \DateTime::createFromFormat('m/d/y', $date);
 
   }
 
@@ -116,7 +95,7 @@ class TripDetails {
    */
   public function setFareValue($value) {
 
-    if (empty($date))
+    if (empty($value))
       throw new GeneralException("Fare value parameter has to be defined - ". 
                                  "it cannot be empty",
                                  "FATAL");
@@ -131,14 +110,14 @@ class TripDetails {
    *
    * @param [type] $type [description]
    */
-  public function setType($type) {
+  public function setCarType($type) {
 
-    if (empty($date))
+    if (empty($type))
       throw new GeneralException("Type parameter has to be defined - ". 
                                  "it cannot be empty",
                                  "FATAL");
 
-    $this->_type = $type;
+    $this->_carType = $type;
 
   }
 
@@ -150,7 +129,7 @@ class TripDetails {
    */
   public function setCity($city) {
 
-    if (empty($date))
+    if (empty($city))
       throw new GeneralException("City parameter has to be defined - ". 
                                  "it cannot be empty",
                                  "FATAL");
@@ -167,7 +146,7 @@ class TripDetails {
    */
   public function setMapURL($url) {
     
-    if (empty($date))
+    if (empty($url))
       throw new GeneralException("Map URL parameter has to be defined - ". 
                                  "it cannot be empty",
                                  "FATAL");
@@ -176,6 +155,26 @@ class TripDetails {
 
   }
 
+
+  public function setTripDetails($details) {
+
+    if (empty($details))
+      throw new GeneralException("Trip Details Array has to be defined - ". 
+                                 "it cannot be empty",
+                                 "FATAL");
+
+    if (count($details) < 5)
+      throw new GeneralException("Trip Details Array cannot be less ". 
+                                 "than 6 items ",
+                                 "FATAL");
+
+    $this->setPickupDate($details[0]);
+    $this->setDriverName($details[1]);
+    $this->setFareValue($details[2]);
+    $this->setCarType($details[3]);
+    $this->setCity($details[4]);
+
+  }
 
   /**
    * Return an array of this object's 

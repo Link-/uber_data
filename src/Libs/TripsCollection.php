@@ -1,12 +1,11 @@
 <?php namespace UberCrawler\Libs;
 
 use UberCrawler\Libs\TripDetails as TripDetails;
-use UberCrawler\Libs\Exceptions\GeneralException as GeneralException;
 
 /**
  * 
  */
-class TripsCollection implements Iterator {
+class TripsCollection implements \Iterator {
 
 	/**
 	 * [$position description]
