@@ -1,0 +1,16 @@
+{
+  "name": "ubercrawler/ubercrawler",
+  "description": "Uber Data Crawler and Report Generator",
+  "authors": [
+      {
+          "name": "Bassem Dghaidi",
+          "email": "bassem@interop.link"
+      }
+  ],
+  "require": {},
+  "autoload": {
+  	"psr-4": {
+  		"UberCrawler\\": "./"
+  	}
+  }
+}
