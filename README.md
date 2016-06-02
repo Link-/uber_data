@@ -39,7 +39,9 @@ Installation is very basic, just:
 
 6. Adjust the `timezone` to your current location.
   
-3. Run the script:
+### Execution
+
+Run the script as such:
 
         $: php src/index.php
 
