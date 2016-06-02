@@ -9,33 +9,33 @@ use UberCrawler\Libs\Exceptions\GeneralException as GeneralException;
  */
 class TripsStorage {
 
-	/**
-	 * [TripCollectiontoCSV description]
-	 *
-	 * @param TripCollection $tripCol [description]
-	 */
-	public static function TripCollectiontoCSV(TripsCollection $tripCol) {
+  /**
+   * [TripCollectiontoCSV description]
+   *
+   * @param TripCollection $tripCol [description]
+   */
+  public static function TripCollectiontoCSV(TripsCollection $tripCol) {
 
-		date_default_timezone_set(App::$APP_SETTINGS['timezone']);
-		// Get current timestamp
-		$timeStamp = time();
-		// File: /tmp/uber-parsed/1464880984.csv
-		$fullFilePath = join("/", 
-		                     [App::$APP_SETTINGS['parsed_data_dir'], 
-		                    	time() . ".csv"]
-		                    );
-		
-		Helper::makedirs(App::$APP_SETTINGS['parsed_data_dir']);
-		
-		$fileHandle = fopen($fullFilePath, 'w');
+    date_default_timezone_set(App::$APP_SETTINGS['timezone']);
+    // Get current timestamp
+    $timeStamp = time();
+    // File: /tmp/uber-parsed/1464880984.csv
+    $fullFilePath = join("/", 
+                         [App::$APP_SETTINGS['parsed_data_dir'], 
+                          time() . ".csv"]
+                        );
+    
+    Helper::makedirs(App::$APP_SETTINGS['parsed_data_dir']);
+    
+    $fileHandle = fopen($fullFilePath, 'w');
 
-		if ($fileHandle) {
-			foreach ($tripCol as $trip) {
-		    fputcsv($fileHandle, $trip->toArray());
-			}
+    if ($fileHandle) {
+      foreach ($tripCol as $trip) {
+        fputcsv($fileHandle, $trip->toArray());
+      }
 
-			fclose($fileHandle);
-		}
+      fclose($fileHandle);
+    }
 
-	}
+  }
 }

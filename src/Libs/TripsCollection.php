@@ -7,35 +7,35 @@ use UberCrawler\Libs\TripDetails as TripDetails;
  */
 class TripsCollection implements \Iterator {
 
-	/**
-	 * [$position description]
-	 *
-	 * @var integer
-	 */
-	private $position = 0;
-	/**
-	 * [$_trips description]
-	 *
-	 * @var array
-	 */
-	private $_trips = array();
+  /**
+   * [$position description]
+   *
+   * @var integer
+   */
+  private $position = 0;
+  /**
+   * [$_trips description]
+   *
+   * @var array
+   */
+  private $_trips = array();
 
 
-	/**
-	 * [__construct description]
-	 */
-	public function __construct() {
-	  
-	  $this->position = 0;
+  /**
+   * [__construct description]
+   */
+  public function __construct() {
+    
+    $this->position = 0;
 
-	}
+  }
 
 
-	/**
-	 * [rewind description]
-	 *
-	 * @return [type] [description]
-	 */
+  /**
+   * [rewind description]
+   *
+   * @return [type] [description]
+   */
   public function rewind() {
 
       $this->position = 0;
@@ -93,7 +93,7 @@ class TripsCollection implements \Iterator {
    */
   public function isEmpty() {
 
-  	return empty($this->_trips);
+    return empty($this->_trips);
 
   }
 
@@ -104,7 +104,7 @@ class TripsCollection implements \Iterator {
    */
   public function addTrip(TripDetails $trip) {
 
-  	array_push($this->_trips, $trip);
+    array_push($this->_trips, $trip);
 
   }
 
