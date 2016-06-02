@@ -259,7 +259,7 @@ class Crawler {
       // Parse the retrieved page
       $this->_parser->parsePage($postLoginRawData);
       // Parsed the next page if it's available
-      // return $this->getNextPageData();
+      return $this->getNextPageData();
 
 
     } else {
