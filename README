@@ -1,13 +1,33 @@
 # Uber Crawler / Usage Analytics
-	@version 0.1
+    
+    @version 0.1
 
 ## Synopsis
 TBD
 
 ## Installation
-Installation is very basic, just clone this repository into any directory:
+Installation is very basic, just: 
 
-	git clone 
+1. Clone this repository into any directory:
+
+        git clone https://github.com/Link-/uber_data.git
+    
+2. Install dependencies (there aren't any at the moment) and build the `autoload` file:
+
+        $: cd src/
+        $: composer install
+    
+3. Build your `App.php` configuration file:
+
+        $: cd src/Config
+        $: cp App.example.php
+ 
+   
+3. Run the script:
+
+        $: php src/index.php
+
+
 
 ## License
 TBD
