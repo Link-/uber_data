@@ -5,7 +5,7 @@ _sublime/
 App.php
 
 # Ignore data/
-data/
+_data/
 
 # Ignore vendor/
 vendor/

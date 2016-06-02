@@ -42,3 +42,11 @@ Installation is very basic, just:
 3. Run the script:
 
         $: php src/index.php
+
+### Sample Output
+
+        2016-06-02,Fadi,$5.70,uberX,Beirut,
+        2016-06-02,Mohamad,Canceled,uberX,Beirut,
+        2016-06-02,Maysar,$20.23,uberX,Beirut,
+        2016-06-01,Sleimann,$9.79,uberX,Beirut,
+        2016-06-01,George,$25.36,uberX,Beirut,
