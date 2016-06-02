@@ -1,6 +1,7 @@
 <?php namespace UberCrawler\Libs;
 
 use UberCrawler\Libs\TripsCollection as TripsCollection;
+use UberCrawler\Libs\Exceptions\GeneralException as GeneralException;
 
 /**
  * 
@@ -63,6 +64,36 @@ class Parser {
 
 
 	/**
+	 * [getTripsCollection description]
+	 *
+	 * @return [type] [description]
+	 */
+	public function getTripsCollection() {
+
+		return $this->_tripsCollection;
+
+	}
+
+
+	/**
+	 * [parsePage description]
+	 *
+	 * @param string $html [description]
+	 *
+	 * @return [type] [description]
+	 */
+	public function parsePage($html = '') {
+
+		if (empty($html))
+			return False;
+
+		$this->loadHTML($html);
+
+		return $this->parseDataTable();
+
+	}
+
+	/**
 	 * [loadHTML description]
 	 *
 	 * @param [type] $html [description]
@@ -70,6 +101,10 @@ class Parser {
 	 * @return [type] [description]
 	 */
 	public function loadHTML($html) {
+
+		if (empty($html))
+			throw new GeneralException("Cannot parse empty HTML Document!", 
+                                 "FATAL");
 
 		$this->_rawHTMLData = $html;
 		$this->_DomDocument->loadHTML($html);
@@ -87,10 +122,14 @@ class Parser {
 
 		$nodes = $this->_DomXPath->query("//*[contains(concat(' ', normalize-space(@class), ' '), ' pagination__next ')]");
 
-		foreach($nodes as $elmnt) {
-			var_dump($elmnt->attributes['href']->value);
+		if (count($nodes) > 0) {
+			foreach($nodes as $elmnt) {
+				// Return the first match
+				return $elmnt->attributes['href']->value;
+			}
 		}
 
+		return False;
 	}
 
 
@@ -123,8 +162,8 @@ class Parser {
 			// Add the trip to the Collection
 			$this->_tripsCollection->addTrip($tripD);
 		}
-
-		return $this->_tripsCollection;
+		
+		return $this->_tripsCollection->isEmpty();
 	}
 
 

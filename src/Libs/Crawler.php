@@ -1,6 +1,8 @@
 <?php namespace UberCrawler\Libs;
 
 use UberCrawler\Config\App as App;
+use UberCrawler\Libs\Helper as Helper;
+use UberCrawler\Libs\Parser as Parser;
 use UberCrawler\Libs\Exceptions\GeneralException as GeneralException;
 
 /**
@@ -19,6 +21,12 @@ class Crawler {
    * @var string
    */
   protected $_csrf_token = '';
+  /**
+   * Parser Instance
+   *
+   * @var [type]
+   */
+  protected $_parser;
 
 
   /**
@@ -26,7 +34,8 @@ class Crawler {
    */
   public function __construct() {
 
-    $this->_curlHandle = curl_init();
+    $this->_curlHandle  = curl_init();
+    $this->_parser      = new Parser();
 
   }
 
@@ -41,12 +50,29 @@ class Crawler {
   }
 
 
+  /** 
+   * [execute description]
+   *
+   * @return [type] [description]
+   */
   public function execute() {
 
     // Grab the Login form and CSRF token
     $this->grabLoginForm();
     // Attempt to Login now
     $this->getData();
+
+  }
+
+
+  /**
+   * [getTripsCollection description]
+   *
+   * @return [type] [description]
+   */
+  public function getTripsCollection() {
+
+    return $this->_parser->getTripsCollection();
 
   }
 
@@ -119,16 +145,16 @@ class Crawler {
                 App::$APP_SETTINGS['user_agent']);
 
     /**
-     * 
-     */
-    curl_setopt($this->_curlHandle, 
-                CURLOPT_HTTPHEADER, 
-                $headers);
-
-    /**
      * POST Request
      */
     if ($post) {
+     /**
+      * 
+      */
+      curl_setopt($this->_curlHandle, 
+                CURLOPT_HTTPHEADER, 
+                $headers);
+
       curl_setopt($this->_curlHandle,
                   CURLOPT_POST, 
                   $post);
@@ -156,7 +182,7 @@ class Crawler {
     if (!curl_errno($this->_curlHandle)) {
 
       // Printout informative messages
-      $this->printOut("Retrieving CSRF Token");
+      Helper::printOut("Retrieving CSRF Token");
       // Retrieve the csrf token
       $this->_csrf_token = $this->getCSRFToken($rawFormData);
       // Check that we have successfully retrieved the
@@ -165,7 +191,7 @@ class Crawler {
         throw new GeneralException("Grabbing CSRF Token Failed", 
                                    "FATAL");
       }
-      $this->printOut("CSRF TOKEN: {$this->_csrf_token}");
+      Helper::printOut("CSRF TOKEN: {$this->_csrf_token}");
 
     } else {
 
@@ -227,18 +253,73 @@ class Crawler {
     // Check if there were any errors in the process
     if (!curl_errno($this->_curlHandle)) {
 
-      $this->printOut("Retrieved Data");
+      Helper::printOut("Retrieved Data");
       $this->storeIntoFile($postLoginRawData, 1);
+
+      // Parse the retrieved page
+      $this->_parser->parsePage($postLoginRawData);
+      // Parsed the next page if it's available
+      // return $this->getNextPageData();
+
 
     } else {
 
       // Failed to Login
       $errorMessage = curl_error($this->_curlHandle);
-      throw new GeneralException("Login Attempt Failed!", 
+      throw new GeneralException("Login Attempt Failed! " .
+                                 $errorMessage, 
                                  "FATAL");
 
     }
 
+  }
+
+
+  /**
+   * [getNextPageData description]
+   *
+   * @return [type] [description]
+   */
+  protected function getNextPageData() {
+
+    $i = 1;
+    while($this->_parser->getNextPage()) {
+      
+      $nextPage = $this->_parser->getNextPage();
+      $i++;
+
+      $pageUrl = App::$APP_SETTINGS['uber_trips_url'] . $nextPage;
+
+      Helper::printOut("Retrieving Page: {$i}");
+      // Set cURL Options
+      $this->setCurlOptions(False, 
+                            '',
+                            [],
+                            $pageUrl);
+
+      // Execute the Request
+      $pageRawData = curl_exec($this->_curlHandle);
+      // Check if there were any errors in the process
+      if (!curl_errno($this->_curlHandle)) {
+
+        Helper::printOut("Retrieved Data");
+        $this->storeIntoFile($pageRawData, $i);
+
+        // Parse the retrieved page
+        $this->_parser->parsePage($pageRawData);
+
+      } else {
+
+        // Failed to Retrieve all pages
+        $errorMessage = curl_error($this->_curlHandle);
+        throw new GeneralException("Failed to retrieve all pages! " .
+                                   $errorMessage, 
+                                   "FATAL");
+
+      }
+    }
+
+    return $this->_parser->getTripsCollection();
   }
 
 
@@ -257,25 +338,9 @@ class Crawler {
     $fileName = $this->buildStorageFilePath($pageNumb);
     // Build the necessary dirs if they
     // don't exist already
-    $this->makedirs(App::$APP_SETTINGS['data_storage_dir']);
+    Helper::makedirs(App::$APP_SETTINGS['data_storage_dir']);
     // Store data into a file
     file_put_contents($fileName, $data);
-
-  }
-
-
-  /**
-   * [makedirs description]
-   *
-   * @param [type]  $dirpath [description]
-   * @param integer $mode    [description]
-   *
-   * @return [type]  [description]
-   */
-  protected function makedirs($dirpath, 
-                              $mode=0777) {
-
-    return is_dir($dirpath) || mkdir($dirpath, $mode, true);
 
   }
 
@@ -291,9 +356,11 @@ class Crawler {
 
     // Build the filename
     $fileName = "data-page_{$pageNumb}.html";
-    return join("/", [App::$APP_SETTINGS['data_storage_dir'],
-               $fileName
-       ]);
+    
+    return join("/", 
+                  [App::$APP_SETTINGS['data_storage_dir'],
+                   $fileName]
+                );
 
   }
 
@@ -310,21 +377,6 @@ class Crawler {
                              'email'        => App::$APP_SETTINGS['username'],
                              'password'     => App::$APP_SETTINGS['password']
                             ]);
-
-  }
-
-
-  /**
-   * [printOut description]
-   *
-   * @param [type] $message [description]
-   * @param string $type    [description]
-   *
-   * @return [type] [description]
-   */
-  protected function printOut($message, $type = 'INFO') {
-
-    echo "{$type}::: {$message} \n";
 
   }
 

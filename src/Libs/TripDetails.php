@@ -187,4 +187,23 @@ class TripDetails {
     return get_object_vars($this);
 
   }
+
+
+  /**
+   * Convert the TripDetails Object into an Array
+   *
+   * @return [type] [description]
+   */
+  public function toArray() {
+
+    return [
+      $this->_pickupDate->format('Y-m-d'),
+      $this->_driverName,
+      $this->_fareValue,
+      $this->_carType,
+      $this->_city,
+      $this->_mapUrl
+    ];
+
+  }
 }

@@ -18,6 +18,11 @@ class App {
 		 * Uber Login URL
 		 */
 		'uber_login_url' => 'https://login.uber.com/login',
+
+		/**
+		 * Trips URL
+		 */
+		'uber_trips_url' => 'https://riders.uber.com/trips',
 		
 		/**
 		 * Storage Location for Session Data
@@ -27,8 +32,19 @@ class App {
 		/**
 		 * Storage Location of Crawled Pages
 		 * Data
+		 * -- 
+		 * If the folder doesn't exist it will
+		 * be created
 		 */
-		'data_storage_dir' => '/tmp/ubder-data',
+		'data_storage_dir' => '/tmp/uber-data',
+
+		/**
+		 * Parsed Data Storage Location
+		 * --
+		 * If the folder doesn't exist it will
+		 * be created
+		 */
+		'parsed_data_dir' => '/tmp/uber-parsed',
 		
 		/**
 		 * User Agent
@@ -39,8 +55,10 @@ class App {
 
 		/**
 		 * Curl Request Timeout in seconds
+		 *
+		 * Increase the time for slower internet connections
 		 */
-		'curl_timeout' => 15,
+		'curl_timeout' => 120,
 
 		/**
 		 * !! Important !!
@@ -49,7 +67,7 @@ class App {
 		 * handling and if set incorrectly, it might lead 
 		 * to wrong information generation
 		 */
-		'timeZone' => 'UTC'
+		'timezone' => 'Asia/Beirut'
 
 	];
 
