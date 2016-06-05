@@ -47,8 +47,14 @@ Run the script as such:
 
 ### Sample Output
 
-        2016-06-02,Fadi,$5.70,uberX,Beirut,
-        2016-06-02,Mohamad,Canceled,uberX,Beirut,
-        2016-06-02,Maysar,$20.23,uberX,Beirut,
-        2016-06-01,Sleimann,$9.79,uberX,Beirut,
-        2016-06-01,George,$25.36,uberX,Beirut,
+        2016-06-03,Logan,$7.73,uberX,Los Angeles,N.A
+        2016-06-03,John,$14.45,uberX,Los Angeles,N.A
+        2016-06-02,Mark,$4.70,uberX,Los Angeles,N.A
+        2016-06-02,Logan,Canceled,uberX,Los Angeles,N.A
+        2016-06-02,Morgan,$13.23,uberX,Los Angeles,N.A
+        2016-06-01,Sleimann,$4.79,uberX,Los Angeles,N.A
+        2016-06-01,George,$14.36,uberX,Los Angeles,N.A
+
+### Sample Analysis Output
+
+Uber Data Anlysis v0.1 Notebook: https://github.com/Link-/uber_data/blob/master/analysis/Uber-Data_Analysis-0.1.ipynb
