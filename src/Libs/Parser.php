@@ -114,12 +114,14 @@ class Parser {
 
 
   /**
-   * [getNextPage description]
+   * Retrieve the value of the "href" attribute of the pagination
+   * "next" element
    *
-   * @return [type] [description]
+   * @return string GET query string ?page=n
    */
   public function getNextPage() {
 
+    // Find the element for the next element in the pagination
     $nodes = $this->_DomXPath->query("//*[contains(concat(' ', normalize-space(@class), ' '), ' pagination__next ')]");
 
     if (count($nodes) > 0) {
@@ -134,12 +136,22 @@ class Parser {
 
 
   /**
-   * [parseDataTable description]
+   * Parses the Data Table from the Uber Page. Do not call this
+   * method if _DomXPath has not been initialized.
    *
-   * @return [type] [description]
+   * It will add the parsed TripDetails into the _tripsCollection 
+   * instance and will always return True or False depending
+   * on whether the _tripsCollection is Empty or Not.
+   *
+   * @return boolean True or False depending on TripCollection emptiness
    */
   public function parseDataTable() {
     
+    if (!$this->_DomXPath)
+      throw new GeneralException("Cannot Parse the data table as _DomXPath" .
+                                 " has not been initialized yet!",
+                                 "FATAL");
+
     // Get the elements with the class name 'trip-expand__origin'
     // the trip details are containing inside those <td> elements
     $nodes = $this->_DomXPath->query("//*[contains(concat(' '," . 
@@ -150,12 +162,18 @@ class Parser {
     // the structure is complicated
     // review the Uber details page to understand
     // what's happening here
+    // We're simply assuming that the items in the data table
+    // are always in a specific order and we're using that order
+    // to fill the trip details
     foreach($nodes as $node) {
       $tripD = new TripDetails();
       $tripA = [];
       foreach($node->childNodes as $child) {
-        if (!empty($child->textContent))
-          array_push($tripA, $child->textContent);
+        // Remove unwanted Unicode characters
+        $content = preg_replace("/^[\pZ\pC]+|[\pZ\pC]+$/u", 
+                                '', 
+                                $child->textContent);
+        array_push($tripA, $content);
       }
       // Set the trip details
       $tripD->setTripDetails($tripA);
@@ -168,7 +186,8 @@ class Parser {
 
 
   /**
-   * [getInnerHTML description]
+   * Retrieves the innerHTML of a specific HTML element
+   * However, this is not being used in this release
    *
    * @param [type] $node [description]
    *

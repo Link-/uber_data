@@ -42,7 +42,7 @@ class TripDetails {
    *
    * @var [type]
    */
-  protected $_mapUrl;
+  protected $_mapUrl = 'N.A';
 
 
   /**
@@ -95,10 +95,11 @@ class TripDetails {
    */
   public function setFareValue($value) {
 
-    if (empty($value))
-      throw new GeneralException("Fare value parameter has to be defined - ". 
-                                 "it cannot be empty",
-                                 "FATAL");
+    if (empty($value)) {
+      // Fares can have an empty value
+      // meaning it was a free ride
+      $value = "Free";
+    }
 
     $this->_fareValue = $value;
 
@@ -156,6 +157,11 @@ class TripDetails {
   }
 
 
+  /**
+   * [setTripDetails description]
+   *
+   * @param [type] $details [description]
+   */
   public function setTripDetails($details) {
 
     if (empty($details))
@@ -168,13 +174,16 @@ class TripDetails {
                                  "than 6 items ",
                                  "FATAL");
 
-    $this->setPickupDate($details[0]);
-    $this->setDriverName($details[1]);
-    $this->setFareValue($details[2]);
-    $this->setCarType($details[3]);
-    $this->setCity($details[4]);
+    // Skip the first element (which is a visual element) 
+    // and start from index 1 
+    $this->setPickupDate($details[1]);
+    $this->setDriverName($details[2]);
+    $this->setFareValue(trim($details[3]));
+    $this->setCarType($details[4]);
+    $this->setCity($details[5]);
 
   }
+
 
   /**
    * Return an array of this object's 
