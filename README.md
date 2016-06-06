@@ -6,6 +6,9 @@
 TBD
 
 ### Installation & Configuration
+
+`PHP 5.6+ is a requirement`
+
 Installation is very basic, just: 
 
 1. Clone this repository into any directory:
