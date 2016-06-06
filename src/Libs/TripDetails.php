@@ -63,6 +63,13 @@ class TripDetails {
                                  "it cannot be empty",
                                  "FATAL");
 
+    // Handle an exceptional scenario where the uber date
+    // is merged with a trip comment when the fare is split
+    // TODO:: This should be changed to add the date
+    // format in the configuration
+    if (strlen($date) > 8)
+      $date = substr($date, 0, 8);
+
     // Set the default timezone
     date_default_timezone_set(App::$APP_SETTINGS['timezone']);
     // Get a DateTime instance
