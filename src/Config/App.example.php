@@ -2,7 +2,7 @@
 
 class App {
   
-  public static $settings = [
+  public static $APP_SETTINGS = [
     
     /**
      * Uber Account Username
