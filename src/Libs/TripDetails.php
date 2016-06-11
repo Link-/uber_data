@@ -52,9 +52,10 @@ class TripDetails {
 
 
   /**
-   * [setPickupDate description]
+   * PickupDate takes only 1 date format:
+   * m/d/y only
    *
-   * @param [type] $date [description]
+   * @param string $date string date 'm/d/y'
    */
   public function setPickupDate($date) {
 
@@ -74,6 +75,19 @@ class TripDetails {
     date_default_timezone_set(App::$APP_SETTINGS['timezone']);
     // Get a DateTime instance
     $this->_pickupDate = \DateTime::createFromFormat('m/d/y', $date);
+    // Return errors or warnings
+    return \DateTime::getLastErrors();
+  }
+
+
+  /**
+   * Returns the set _pickupDate
+   *
+   * @return [type] [description]
+   */
+  public function getPickupDate() {
+
+    return $this->_pickupDate;
 
   }
 
@@ -109,6 +123,18 @@ class TripDetails {
     }
 
     $this->_fareValue = $value;
+
+  }
+
+
+  /**
+   * [getFareValue description]
+   *
+   * @return [type] [description]
+   */
+  public function getFareValue() {
+
+    return $this->_fareValue;
 
   }
 
@@ -198,7 +224,7 @@ class TripDetails {
    *
    * @return [type] [description]
    */
-  public function getTripArray() {
+  public function getTripObjectArray() {
 
     return get_object_vars($this);
 

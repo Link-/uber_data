@@ -12,6 +12,9 @@
     "phpunit/phpunit": "5.4.*"
   },
   "autoload": {
+    "psr-0": {
+      "tests": ""
+    },
   	"psr-4": {
   		"UberCrawler\\": "./"
   	}
