@@ -1,8 +1,5 @@
 <?php 
 
-require_once __DIR__ . "/../../vendor/autoload.php";
-
-
 use PHPUnit\Framework\TestCase;
 use UberCrawler\Libs\TripDetails as TripDetails;
 use UberCrawler\Libs\TripsCollection as TripsCollection;
@@ -16,6 +13,13 @@ class TripsCollectionTest extends TestCase {
   protected function setUp() {
 
     $this->_tripsCollection = new TripsCollection();
+
+  }
+
+
+  protected function tearDown() {
+
+    $this->_tripsCollection = null;
 
   }
 

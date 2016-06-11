@@ -7,6 +7,9 @@ App.php
 # Ignore data/
 _data/
 
+# Ignore docs/
+_docs/
+
 # Ignore vendor/
 vendor/
 

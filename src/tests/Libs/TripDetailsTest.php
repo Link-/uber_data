@@ -1,8 +1,5 @@
 <?php 
 
-require_once __DIR__ . "/../../vendor/autoload.php";
-
-
 use PHPUnit\Framework\TestCase;
 use UberCrawler\Libs\TripDetails as TripDetails;
 use UberCrawler\Libs\Exceptions\GeneralException as GeneralException;
@@ -15,6 +12,12 @@ class TripDetailsTest extends TestCase {
   protected function setUp() {
 
     $this->_tripDetails = new TripDetails();
+
+  }
+
+  protected function tearDown() {
+
+    $this->_tripDetails = null;
 
   }
 

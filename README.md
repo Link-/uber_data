@@ -8,6 +8,7 @@ TBD
 ### Installation & Configuration
 
 `PHP 5.6+ is a requirement`
+`XDebug is a requirement for running the unit tests`
 
 Installation is very basic, just: 
 
