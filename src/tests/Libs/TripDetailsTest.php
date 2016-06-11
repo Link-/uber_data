@@ -12,7 +12,6 @@ class TripDetailsTest extends TestCase {
 
   protected $_tripDetails;
 
-
   protected function setUp() {
 
     $this->_tripDetails = new TripDetails();
@@ -61,6 +60,7 @@ class TripDetailsTest extends TestCase {
     $this->_tripDetails->setMapURL('');
     $this->_tripDetails->setTripDetails('');
     $this->_tripDetails->setTripDetails([]);
+    $this->_tripDetails->setTripDetails(['1', '2']);
 
   }
 

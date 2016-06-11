@@ -25,7 +25,7 @@ class TripsCollection implements \Iterator {
    * [__construct description]
    */
   public function __construct() {
-    
+
     $this->position = 0;
 
   }
@@ -39,6 +39,7 @@ class TripsCollection implements \Iterator {
   public function rewind() {
 
       $this->position = 0;
+
   }
 
 
@@ -50,6 +51,7 @@ class TripsCollection implements \Iterator {
   public function current() {
 
       return $this->_trips[$this->position];
+
   }
 
 
@@ -61,6 +63,7 @@ class TripsCollection implements \Iterator {
   public function key() {
 
       return $this->position;
+
   }
 
 
@@ -72,6 +75,7 @@ class TripsCollection implements \Iterator {
   public function next() {
 
       ++$this->position;
+
   }
 
 
@@ -83,6 +87,20 @@ class TripsCollection implements \Iterator {
   public function valid() {
 
       return isset($this->_trips[$this->position]);
+
+  }
+
+
+  /**
+   * Returns the size of the _trips 
+   * Array
+   *
+   * @return [type] [description]
+   */
+  public function size() {
+
+    return count($this->_trips);
+
   }
 
 
