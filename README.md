@@ -1,6 +1,6 @@
 # Uber Crawler / Usage Analytics
     
-    @version 0.1
+    @version alpha-0.2
 
 ### Synopsis
 TBD
