@@ -12,6 +12,7 @@ _docs/
 
 # Ignore vendor/
 vendor/
+composer.lock
 
 # Ignore OSX Files
 *.DS_Store
