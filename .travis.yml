@@ -12,7 +12,7 @@ before_script:
   - mv src/Config/App.example.php src/Config/App.php
 
 script:
-  - src/vendor/bin/phpunit --coverage-text
+  - src/vendor/bin/phpunit --coverage-clover build/logs/clover.xml
 
 after_script:
-  - travis_retry src/vendor/bin/coveralls
+  - travis_retry src/vendor/bin/coveralls -v
