@@ -2,6 +2,8 @@
     
     @version alpha-0.2
 
+[![Build Status](https://travis-ci.org/Link-/uber_data.svg?branch=master)](https://travis-ci.org/Link-/uber_data)
+
 ### Synopsis
 
 Uber web interface crawler - Convert the trips table into a CSV file
@@ -19,13 +21,12 @@ Installation is very basic, just:
     
 2. Install dependencies (there aren't any at the moment) and build the `autoload` file:
 
-        $: cd src/
         $: composer install
     
 3. Build your `App.php` configuration file:
 
         $: cd src/Config
-        $: cp App.example.php App.php
+        $: mv App.example.php App.php
         $: nano App.php
 
 4. Add your Uber Username and Password into the `App.php` file:
@@ -62,4 +63,4 @@ Run the script as such:
 
 ### Sample Analysis Output
 
-Uber Data Anlysis v0.1 Notebook: https://github.com/Link-/uber_data/blob/master/analysis/Uber-Data_Analysis-0.1.ipynb
+Uber Data Anlysis v0.1 Notebook: [Uber-Data_Analysis-0.1.ipynb](https://github.com/Link-/uber_data/blob/master/analysis/Uber-Data_Analysis-0.1.ipynb)
