@@ -12,12 +12,15 @@
     "phpunit/phpunit": "5.4.*",
     "mikey179/vfsStream": "1.6.*"
   },
+  "config": {
+    "vendor-dir": "./src/vendor"
+  },
   "autoload": {
     "psr-0": {
       "tests": ""
     },
   	"psr-4": {
-  		"UberCrawler\\": "./"
+  		"UberCrawler\\": "./src"
   	}
   }
 }

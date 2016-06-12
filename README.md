@@ -3,7 +3,8 @@
     @version alpha-0.2
 
 ### Synopsis
-TBD
+
+Uber web interface crawler - Convert the trips table into a CSV file
 
 ### Installation & Configuration
 
