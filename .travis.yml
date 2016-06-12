@@ -12,6 +12,9 @@ install:
   - composer install
   - composer require satooshi/php-coveralls
 
+before_script:
+  - mv src/Config/App.example.php src/Config/App.php
+
 script:
   - src/vendor/bin/phpunit --coverage-text
 
