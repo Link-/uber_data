@@ -13,7 +13,7 @@ install:
   - composer require satooshi/php-coveralls
 
 script:
-  - vendor/bin/phpunit --coverage-text
+  - src/vendor/bin/phpunit --coverage-text
 
 after_script:
-  - travis_retry vendor/bin/coveralls
+  - travis_retry src/vendor/bin/coveralls
