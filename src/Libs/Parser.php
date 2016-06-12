@@ -64,6 +64,29 @@ class Parser {
 
 
   /**
+   * [getDomXPath description]
+   *
+   * @return [type] [description]
+   */
+  public function getDomXPath() {
+
+    return $this->_DomXPath;
+
+  }
+
+
+  /**
+   * [getDomDocument description]
+   *
+   * @return [type] [description]
+   */
+  public function getDomDocument() {
+
+    return $this->_DomDocument;
+
+  }
+
+  /**
    * [getTripsCollection description]
    *
    * @return [type] [description]
@@ -193,13 +216,17 @@ class Parser {
    *
    * @return [type] [description]
    */
-  protected function getInnerHTML($node) {
+  public function getInnerHTML($node) {
 
     $innerHTML= ''; 
-    $children = $node->childNodes; 
-    foreach ($children as $child) { 
-        $innerHTML .= $child->ownerDocument->saveXML( $child ); 
-    } 
+    $children = $node->childNodes;
+    if (count($children) > 0) {
+      foreach ($children as $child) { 
+          $innerHTML .= $child->ownerDocument->saveXML( $child );
+      }
+    } else {
+      $innerHTML .= $node->ownerDocument->saveXML( $node );
+    }
 
     return $innerHTML; 
 
