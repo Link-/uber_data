@@ -1,6 +1,6 @@
 # Uber Crawler / Usage Analytics
     
-    @version 0.1
+    @version alpha-0.2
 
 ### Synopsis
 TBD
@@ -8,6 +8,7 @@ TBD
 ### Installation & Configuration
 
 `PHP 5.6+ is a requirement`
+`XDebug is a requirement for running the unit tests`
 
 Installation is very basic, just: 
 

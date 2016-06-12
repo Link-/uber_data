@@ -8,7 +8,14 @@
       }
   ],
   "require": {},
+  "require-dev": {
+    "phpunit/phpunit": "5.4.*",
+    "mikey179/vfsStream": "1.6.*"
+  },
   "autoload": {
+    "psr-0": {
+      "tests": ""
+    },
   	"psr-4": {
   		"UberCrawler\\": "./"
   	}
