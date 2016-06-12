@@ -22,11 +22,9 @@
   </filter>
 
   <logging>
-    <log type="coverage-html" target="src/_docs/coverage" charset="UTF-8"
+    <log type="coverage-html" target="build/logs/coverage" charset="UTF-8"
          yui="true" highlight="false"
-         lowUpperBound="35" highLowerBound="70"/>
-    <log type="coverage-clover" target="src/_docs/phpunit/clover.xml"/>
-    <log type="junit" target="src/_docs/phpunit/junit.xml" logIncompleteSkipped="false"/>
-    <log type="testdox-html" target="src/_docs/phpunit/testdox.html"/>
+         lowUpperBound="10" highLowerBound="20"/>
+    <log type="coverage-clover" target="build/logs/clover.xml"/>
   </logging>
 </phpunit>

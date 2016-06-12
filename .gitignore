@@ -4,14 +4,11 @@ _sublime/
 # Ignore App.php
 App.php
 
-# Ignore data/
 _data/
-
-# Ignore docs/
 _docs/
-
-# Ignore vendor/
+build/
 vendor/
+
 composer.lock
 
 # Ignore OSX Files
