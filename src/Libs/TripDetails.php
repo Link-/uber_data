@@ -75,14 +75,23 @@ class TripDetails {
     date_default_timezone_set(App::$APP_SETTINGS['timezone']);
     // Get a DateTime instance
     $this->_pickupDate = \DateTime::createFromFormat('m/d/y', $date);
-    // Return errors or warnings
-    return \DateTime::getLastErrors();
+    // In case a bad date was provided
+    // throw an exception
+    $errors = \DateTime::getLastErrors();
+    if (!empty($errors['warning_count']) ||
+        !empty($errors['error_count'])) {
+      throw new GeneralException("Data format provided is not supported - ".
+                                 " submit an issue on Github for a fix",
+                                 "FATAL");
+    }
+
+    return True;
   }
 
 
   /**
    * Returns the set _pickupDate
-   *
+   * @codeCoverageIgnore
    * @return [type] [description]
    */
   public function getPickupDate() {
@@ -94,7 +103,7 @@ class TripDetails {
 
   /**
    * [setDriverName description]
-   *
+   * @codeCoverageIgnore
    * @param [type] $name [description]
    */
   public function setDriverName($name) {
@@ -129,7 +138,7 @@ class TripDetails {
 
   /**
    * [getFareValue description]
-   *
+   * @codeCoverageIgnore
    * @return [type] [description]
    */
   public function getFareValue() {
@@ -141,7 +150,7 @@ class TripDetails {
 
   /**
    * [setType description]
-   *
+   * @codeCoverageIgnore
    * @param [type] $type [description]
    */
   public function setCarType($type) {
@@ -158,7 +167,7 @@ class TripDetails {
 
   /**
    * [setCity description]
-   *
+   * @codeCoverageIgnore
    * @param [type] $city [description]
    */
   public function setCity($city) {
@@ -175,7 +184,7 @@ class TripDetails {
 
   /**
    * [setMapURL description]
-   *
+   * @codeCoverageIgnore
    * @param [type] $url [description]
    */
   public function setMapURL($url) {
@@ -192,7 +201,7 @@ class TripDetails {
 
   /**
    * [setTripDetails description]
-   *
+   * 
    * @param [type] $details [description]
    */
   public function setTripDetails($details) {

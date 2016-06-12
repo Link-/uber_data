@@ -47,7 +47,7 @@ class Parser {
 
   /**
    * [__construct description]
-   *
+   * 
    * @param string $html [description]
    */
   public function __construct($html = '') {
@@ -65,7 +65,7 @@ class Parser {
 
   /**
    * [getDomXPath description]
-   *
+   * @codeCoverageIgnore
    * @return [type] [description]
    */
   public function getDomXPath() {
@@ -77,7 +77,7 @@ class Parser {
 
   /**
    * [getDomDocument description]
-   *
+   * @codeCoverageIgnore
    * @return [type] [description]
    */
   public function getDomDocument() {
@@ -87,8 +87,8 @@ class Parser {
   }
 
   /**
-   * [getTripsCollection description]
-   *
+   * Returns the instance of TripsCollection
+   * 
    * @return [type] [description]
    */
   public function getTripsCollection() {
@@ -99,7 +99,22 @@ class Parser {
 
 
   /**
-   * [parsePage description]
+   * Returns the loaded Raw HTML Data
+   * @codeCoverageIgnore
+   * @return [type] [description]
+   */
+  public function getRawHTMLData() {
+
+    return $this->_rawHTMLData;
+
+  }
+
+
+  /**
+   * Loads the HTML into the DOMDocument
+   * then calls the parseDataTable() 
+   * to generate the TripDetails and add
+   * them to the TripsCollection
    *
    * @param string $html [description]
    *
@@ -130,8 +145,13 @@ class Parser {
                                  "FATAL");
 
     $this->_rawHTMLData = $html;
-    $this->_DomDocument->loadHTML($html);
+    $loadedHTML = $this->_DomDocument->loadHTML($html);
     $this->_DomXPath = new \DomXPath($this->_DomDocument);
+
+    // True of the HTML has been loaded
+    // and a new instance of DomXPath was successfully
+    // created
+    return (boolean)($loadedHTML & ($this->_DomXPath instanceof \DomXPath));
 
   }
 
