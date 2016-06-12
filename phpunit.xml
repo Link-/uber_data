@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit colors="true"
-         bootstrap="vendor/autoload.php"
+         bootstrap="src/vendor/autoload.php"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
@@ -11,22 +11,22 @@
          verbose="true">
     <testsuites>
         <testsuite name="Uber Data Test Suite">
-            <directory>./tests/</directory>
+            <directory>src/tests/</directory>
         </testsuite>
     </testsuites>
 
   <filter>
     <whitelist processUncoveredFilesFromWhitelist="true">
-      <directory suffix=".php">../src/Libs</directory>
+      <directory suffix=".php">src/Libs</directory>
     </whitelist>
   </filter>
 
   <logging>
-    <log type="coverage-html" target="_docs/coverage" charset="UTF-8"
+    <log type="coverage-html" target="src/_docs/coverage" charset="UTF-8"
          yui="true" highlight="false"
          lowUpperBound="35" highLowerBound="70"/>
-    <log type="coverage-clover" target="_docs/phpunit/clover.xml"/>
-    <log type="junit" target="_docs/phpunit/junit.xml" logIncompleteSkipped="false"/>
-    <log type="testdox-html" target="_docs/phpunit/testdox.html"/>
+    <log type="coverage-clover" target="src/_docs/phpunit/clover.xml"/>
+    <log type="junit" target="src/_docs/phpunit/junit.xml" logIncompleteSkipped="false"/>
+    <log type="testdox-html" target="src/_docs/phpunit/testdox.html"/>
   </logging>
 </phpunit>
