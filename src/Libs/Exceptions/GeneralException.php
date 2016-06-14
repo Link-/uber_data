@@ -32,7 +32,7 @@ class GeneralException extends \Exception {
 
   /**
    * [__toString description]
-   *
+   * 
    * @return string [description]
    */
   public function __toString() {

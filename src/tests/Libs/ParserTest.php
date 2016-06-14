@@ -3,6 +3,7 @@
 use PHPUnit\Framework\TestCase;
 use UberCrawler\Libs\Parser as Parser;
 use UberCrawler\Libs\TripsCollection as TripsCollection;
+use UberCrawler\Libs\Exceptions\GeneralException as GeneralException;
 
 class ParserTest extends TestCase {
 
@@ -11,6 +12,13 @@ class ParserTest extends TestCase {
   public function setUp() {
 
     $this->_parser = new Parser();
+
+  }
+
+
+  public function tearDown() {
+
+    $this->_parser = null;
 
   }
 
@@ -55,6 +63,23 @@ EOD;
   }
 
 
+  public function testloadHTML() {
+
+    // Positive test
+    $goodHTML = <<<EOD
+    <html><body><div>Test</div></body></html>
+EOD;
+
+    $this->assertTrue($this->_parser->loadHTML($goodHTML));
+    $this->assertEquals($goodHTML, $this->_parser->getRawHTMLData());
+
+    // Negative test
+    $this->expectException(GeneralException::class);
+    $this->_parser->loadHTML('');
+
+  }
+
+
   /**
    * @dataProvider paginationProvider
    */
@@ -83,6 +108,41 @@ EOD;
 
   }
 
+
+  /**
+   * @dataProvider dataTableProvider
+   */
+  public function testparseDataTable($html,
+                                     $expectedBool,
+                                     $expectedSize) {
+
+    // parseDataTable returns True or False
+    // based on whether the TripsCollection 
+    // instance is empty or not
+    $this->_parser->loadHTML($html);
+    $this->assertEquals($expectedBool, $this->_parser->parseDataTable());
+    $tripsCollection = $this->_parser->getTripsCollection();
+    $this->assertEquals($expectedSize, $tripsCollection->size());
+
+  }
+
+
+  public function dataTableProvider() {
+
+    // Read the HTML from a sample file
+    $file = __DIR__ . DIRECTORY_SEPARATOR . "../_sample_data/sample.html";
+    $goodHTML = file_get_contents($file);
+
+    $corruptHTML = <<<EOD
+    <html><body><div>Test</div></body></html>
+EOD;
+
+    return [
+      [$goodHTML, False, 20],
+      [$corruptHTML, True, 0]
+    ];
+
+  }
 
   /**
    * @dataProvider htmlProvider

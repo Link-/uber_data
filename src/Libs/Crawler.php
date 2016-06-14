@@ -27,6 +27,18 @@ class Crawler {
    * @var [type]
    */
   protected $_parser;
+  /**
+   * [$_uberLoginURL description]
+   *
+   * @var string
+   */
+  protected $_uberLoginURL = '';
+  /**
+   * [$_uberTripsURL description]
+   *
+   * @var string
+   */
+  protected $_uberTripsURL = '';
 
 
   /**
@@ -36,6 +48,9 @@ class Crawler {
 
     $this->_curlHandle  = curl_init();
     $this->_parser      = new Parser();
+    // Set the URLs
+    $this->setLoginURL(App::$APP_SETTINGS['uber_login_url']);
+    $this->setTripsURL(App::$APP_SETTINGS['uber_trips_url']);
 
   }
 
@@ -50,9 +65,98 @@ class Crawler {
   }
 
 
+  /**
+   * [getLoginURL description]
+   *
+   * @return [type] [description]
+   */
+  public function getLoginURL() {
+
+    return $this->_uberLoginURL;
+
+  }
+
+
+  /**
+   * [setLoginURL description]
+   *
+   * @param [type] $url [description]
+   */
+  public function setLoginURL($url) {
+
+    if (empty($url))
+      throw new GeneralException("Login URL cannot be empty!",
+                                 "FATAL");
+
+    if (!filter_var($url, FILTER_VALIDATE_URL))
+      throw new GeneralException("Invalid Login URL configured. ". 
+                                 "Check your App.php config file.",
+                                 "FATAL");
+
+    $this->_uberLoginURL = $url;
+
+  }
+
+  /**
+   * [getTripsURL description]
+   *
+   * @return [type] [description]
+   */
+  public function getTripsURL() {
+
+    return $this->_uberTripsURL;
+
+  }
+
+
+  /**
+   * [setTripsURL description]
+   *
+   * @param [type] $url [description]
+   */
+  public function setTripsURL($url) {
+
+    if (empty($url))
+      throw new GeneralException("Trips URL cannot be empty!",
+                                 "FATAL");
+
+    if (!filter_var($url, FILTER_VALIDATE_URL))
+      throw new GeneralException("Invalid Trips URL configured. ". 
+                                 "Check your App.php config file.",
+                                 "FATAL");
+
+    $this->_uberTripsURL = $url;
+
+  }
+
+
+  /**
+   * [getParser description]
+   * @codeCoverageIgnore
+   * @return [type] [description]
+   */
+  public function getParser() {
+
+    return $this->_parser;
+
+  }
+
+
+  /**
+   * [getTripsCollection description]
+   * 
+   * @return [type] [description]
+   */
+  public function getTripsCollection() {
+
+    return $this->_parser->getTripsCollection();
+
+  }
+
+
   /** 
    * [execute description]
-   *
+   * @codeCoverageIgnore
    * @return [type] [description]
    */
   public function execute() {
@@ -66,20 +170,8 @@ class Crawler {
 
 
   /**
-   * [getTripsCollection description]
-   *
-   * @return [type] [description]
-   */
-  public function getTripsCollection() {
-
-    return $this->_parser->getTripsCollection();
-
-  }
-
-
-  /**
    * [curlSetOptions description]
-   *
+   * @codeCoverageIgnore
    * @return [type] [description]
    */
   protected function setCurlOptions($post = False,
@@ -95,7 +187,7 @@ class Crawler {
     */
     curl_setopt($this->_curlHandle, 
                 CURLOPT_URL, 
-                empty($url) ? App::$APP_SETTINGS['uber_login_url'] : $url);
+                empty($url) ? $this->_uberLoginURL : $url);
 
     /**
      * Request Timeout
@@ -188,9 +280,10 @@ class Crawler {
       // Check that we have successfully retrieved the
       // token
       if (empty($this->_csrf_token)) {
-        throw new GeneralException("Grabbing CSRF Token Failed", 
+        throw new GeneralException("Grabbing CSRF Token Failed - Empty", 
                                    "FATAL");
       }
+
       Helper::printOut("CSRF TOKEN: {$this->_csrf_token}");
 
     } else {
@@ -201,6 +294,10 @@ class Crawler {
                                  "FATAL");
 
     }
+
+    // If we get here, the CSRF token
+    // was retrieved
+    return $this->_csrf_token;
 
   }
 
@@ -287,7 +384,7 @@ class Crawler {
       $nextPage = $this->_parser->getNextPage();
       $i++;
 
-      $pageUrl = App::$APP_SETTINGS['uber_trips_url'] . $nextPage;
+      $pageUrl = $this->_uberTripsURL . $nextPage;
 
       Helper::printOut("Retrieving Page: {$i}");
       // Set cURL Options
@@ -323,7 +420,10 @@ class Crawler {
 
 
   /**
-   * [storeIntoFile description]
+   * Stores the grabbed HTML pages onto the localdisk
+   * for cashing purposes. The stored files are not being
+   * used in this project yet. Might introduce this feature
+   * in future releases.
    *
    * @param [type]  $data     [description]
    * @param integer $pageNumb [description]
@@ -356,7 +456,7 @@ class Crawler {
     // Build the filename
     $fileName = "data-page_{$pageNumb}.html";
     
-    return join("/", 
+    return join(DIRECTORY_SEPARATOR, 
                   [App::$APP_SETTINGS['data_storage_dir'],
                    $fileName]
                 );
@@ -366,7 +466,7 @@ class Crawler {
 
   /**
    * [getLoginString description]
-   *
+   * 
    * @return [type] [description]
    */
   protected function getLoginString() {

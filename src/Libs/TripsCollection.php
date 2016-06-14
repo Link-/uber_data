@@ -33,7 +33,7 @@ class TripsCollection implements \Iterator {
 
   /**
    * [rewind description]
-   *
+   * @codeCoverageIgnore
    * @return [type] [description]
    */
   public function rewind() {
@@ -45,7 +45,7 @@ class TripsCollection implements \Iterator {
 
   /**
    * [current description]
-   *
+   * @codeCoverageIgnore
    * @return [type] [description]
    */
   public function current() {
@@ -57,7 +57,7 @@ class TripsCollection implements \Iterator {
 
   /**
    * [key description]
-   *
+   * @codeCoverageIgnore
    * @return [type] [description]
    */
   public function key() {
@@ -69,7 +69,7 @@ class TripsCollection implements \Iterator {
 
   /**
    * [next description]
-   *
+   * @codeCoverageIgnore
    * @return function [description]
    */
   public function next() {
@@ -81,7 +81,7 @@ class TripsCollection implements \Iterator {
 
   /**
    * [valid description]
-   *
+   * @codeCoverageIgnore
    * @return [type] [description]
    */
   public function valid() {
@@ -94,7 +94,7 @@ class TripsCollection implements \Iterator {
   /**
    * Returns the size of the _trips 
    * Array
-   *
+   * @codeCoverageIgnore
    * @return [type] [description]
    */
   public function size() {

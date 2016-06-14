@@ -25,14 +25,15 @@ class TripDetailsTest extends TestCase {
   /**
    * @dataProvider dateProvider
    */
-  public function testsetPickupDate($dateString, $expected) {
+  public function testsetPickupDate($dateString) {
 
-    $errors = $this->_tripDetails->setPickupDate($dateString);
-    // True & True = no errors
-    // otherwise = errors
-    $actualState = (empty($errors['warning_count']) & 
-                    empty($errors['error_count']));
-    $this->assertEquals($expected, $actualState);
+    // Test Exception
+    $this->expectException(GeneralException::class);
+    $this->_tripDetails->setPickupDate($dateString);
+
+    // Test Positive case
+    $validDate = '01/20/16';
+    $this->assertTrue($this->_tripDetails->setPickupDate($validDate));
 
   }
 
@@ -40,13 +41,14 @@ class TripDetailsTest extends TestCase {
   public function dateProvider() {
 
     return [
-      ['2015-2-3', False],
-      ['3/3/2016', False],
-      ['3-3-2016', False],
-      ['23/12/16', False],
-      ['23with-Text', False],
-      [123, False],
-      ['10/23/16', True]
+      [
+        '2015-2-3',
+        '3/3/2016',
+        '3-3-2016',
+        '23/12/16',
+        '23with-Text',
+        123
+      ]
     ];
 
   }
@@ -68,7 +70,7 @@ class TripDetailsTest extends TestCase {
   }
 
 
-  public function testsetFareValueFree() {
+  public function testsetFareValue() {
 
     $this->_tripDetails->setFareValue('');
     $this->assertEquals($this->_tripDetails->getFareValue(), 'Free');
@@ -90,15 +92,38 @@ class TripDetailsTest extends TestCase {
   }
 
 
-  public function toArray() {
+  /**
+   * @dataProvider tripDetailsProvider
+   */
+  public function testtoArray($dataArray,
+                              $expectedArray) {
 
+    $this->_tripDetails->setTripDetails($dataArray);
     $tripArray = $this->_tripDetails->toArray();
     $this->assertInternalType('array', $tripArray);
-    $this->assertArrayHasKey('_pickupDate', $tripObjArray);
-    $this->assertArrayHasKey('_driverName', $tripObjArray);
-    $this->assertArrayHasKey('_fareValue', $tripObjArray);
-    $this->assertArrayHasKey('_carType', $tripObjArray);
-    $this->assertArrayHasKey('_mapUrl', $tripObjArray);
+
+    for ($i = 0; $i < count($tripArray); $i++) {
+      $this->assertEquals($expectedArray[$i], $tripArray[$i]);
+    }
+
+  }
+
+
+  public function tripDetailsProvider() {
+
+    // First value of the dataArray is empty
+    // to mimic the UI of Uber where the first
+    // column in the data table is an empty arrow
+    return [
+      [
+        ['', '03/12/16', 'John', '$10.23', 'UberZ', 'Beirut'],
+        ['2016-03-12', 'John', '$10.23', 'UberZ', 'Beirut', 'N.A']
+      ],
+      [
+        ['', '1/1/16', 'John Smith', '$10.23', 'UberZ Platon', 'Moscow Snow'],
+        ['2016-01-01', 'John Smith', '$10.23', 'UberZ Platon', 'Moscow Snow', 'N.A']
+      ]
+    ];
 
   }
 
