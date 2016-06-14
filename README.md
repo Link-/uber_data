@@ -1,6 +1,6 @@
 # Uber Crawler / Usage Analytics
     
-    @version alpha-0.2.1
+    @version alpha-0.2.2
 
 [![Build Status](https://travis-ci.org/Link-/uber_data.svg?branch=master)](https://travis-ci.org/Link-/uber_data)
 [![Coverage Status](https://coveralls.io/repos/github/Link-/uber_data/badge.svg?branch=master)](https://coveralls.io/github/Link-/uber_data?branch=master)
