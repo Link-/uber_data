@@ -1,22 +1,18 @@
 # Uber Crawler / Usage Analytics
     
-    @version alpha-0.2.2
+    @version alpha-0.2.1
 
 [![Build Status](https://travis-ci.org/Link-/uber_data.svg?branch=master)](https://travis-ci.org/Link-/uber_data)
 [![Coverage Status](https://coveralls.io/repos/github/Link-/uber_data/badge.svg?branch=master)](https://coveralls.io/github/Link-/uber_data?branch=master)
 
 ### Synopsis
 
-Uber web interface crawler / scraper - Convert the trips table into a CSV file
-
-## Scraper / Crawler
+Uber web interface crawler - Convert the trips table into a CSV file
 
 ### Installation & Configuration
 
-#### Minimum Requirements
-
-        - PHP (5.6+)
-        - XDebug is a requirement for running the unit tests
+`PHP 5.6+ is a requirement`
+`XDebug is a requirement for running the unit tests`
 
 Installation is very basic, just: 
 
@@ -65,76 +61,6 @@ Run the script as such:
         2016-06-02,Morgan,$13.23,uberX,Los Angeles,N.A
         2016-06-01,Sleimann,$4.79,uberX,Los Angeles,N.A
         2016-06-01,George,$14.36,uberX,Los Angeles,N.A
-
-## Jupyter Notebook
-
-### Installation & Configuration
-
-#### Minimum Requirements
-        
-        python3 (3.4.3)
-        pip3 (1.5.4)
-        jupyter (4.1.0)
-        pandas (0.18.1)
-        matplotlib (1.5.1)
-
-Review the installation requirements / steps per depedency by following the reference links provided below.        
-
-1. Install `python3`, you will need a C compiler and the Python headers and finally `pip3`:
-
-        $: sudo apt-get install python3 build-essential python3-dev python3-setuptools python3-pip
-
-2. Verify that python3 and pip3 have been downloaded / installed:
-
-        $: pip3 -V
-        pip 1.5.4 from /usr/lib/python3/dist-packages (python 3.4)
-        
-        $: python3 -V
-        Python 3.4.3
-        
-3. Install `Jupyter`
-
-        $: sudo pip3 install jupyter
-        
-4. Install `pandas` -- usually `numpy` gets bundled with `pandas` but just in case, install it separately (link to the installation guide below)
-
-        $: sudo pip3 install pandas
-        
-5. Install `matplotlib`
-        
-        $: sudo apt-get install python3-matplotlib
-        # Upgrade to v.1.5.1
-
-
-#### Installation Guides
-
-- pip : [installation guide](https://pip.pypa.io/en/stable/installing/)
-- jupyter : [installation guide](http://jupyter.readthedocs.io/en/latest/install.html)
-- pandas : [installation guide](http://pandas.pydata.org/pandas-docs/stable/install.html)
-- scipy (numpy) : [installation guide](http://scipy.org/install.html)
-- matplotlib : [installation guide](http://matplotlib.org/users/installing.html)
-
-
-### Execution
-
-1. Run jupyter notebook:
-
-    $: jupyter notebook
-    
-2. Open the `Uber-Data_Analysis-0.1.ipynb` found in `uber_data/analysis/`
-
-3. In the 3rd row, change the value of `file_location` as per the below:
-
-        # FROM
-        file_location = r'<path to uber_data>/_sample_data/sample_data.csv'
-        
-        # TO
-        file_location = r'<path to uber data>/data/<the file created by the crawler>.csv'
-        
-4. Press `Cell` then `Run All` from the menubar
-
-5. Voila, you should game the output as shown in the Sample Analysis Output
-
 
 ### Sample Analysis Output
 
