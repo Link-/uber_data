@@ -37,6 +37,8 @@ class AnalyzeCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $output->writeln("<comment>Analysis has begun!</comment>\n");
+        
         $crawler = new Crawler();
         $tripCollection = $crawler->execute();
 

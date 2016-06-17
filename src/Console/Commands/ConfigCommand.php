@@ -67,6 +67,8 @@ class ConfigCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $output->writeln("<comment>Let us configure your Uber Crawler</comment>\n");
+
         // get the questions helper instance
         $helper = $this->getHelper('question');
 
@@ -89,7 +91,8 @@ class ConfigCommand extends Command
             throw Exception('Could not write config file.');
         }
 
-        $output->writeln('<comment>Written config file 🤘🏻</comment>');
+        $output->writeln("<info>INFO: Written config file 🤘🏻</info>\n");
+        $output->writeln('<comment>now to analyze, run "uberc analyze"</comment>');
     }
 
     /**
