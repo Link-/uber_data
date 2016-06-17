@@ -29,12 +29,18 @@ Installation is very basic, just:
 #### Using CLI
 This repository ships with a handy command-line interface companion named `uberc` - located at `./bin/uberc`
 
-- Add `./bin` to your path with `export PATH="$PATH:./bin"`
-- Configure (this has to be done only once)
-     ```
+1. Add `./bin` to your path with
+
+    ```
+    export PATH="$PATH:./bin"
+    ```
+2. Configure (this has to be done only once)
+
+    ```
     uberc config
-     ```
-- Analyze: Will generate the analytics files in the desired directories specified at the config step
+    ```
+3. Analyze: Will generate the analytics files in the desired directories specified at the config step
+
     ```
     uberc analyze
     ```
