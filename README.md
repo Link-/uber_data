@@ -1,5 +1,5 @@
 # Uber Crawler / Usage Analytics
-    
+
     @version alpha-0.2.1
 
 [![Build Status](https://travis-ci.org/Link-/uber_data.svg?branch=master)](https://travis-ci.org/Link-/uber_data)
@@ -14,38 +14,62 @@ Uber web interface crawler - Convert the trips table into a CSV file
 `PHP 5.6+ is a requirement`
 `XDebug is a requirement for running the unit tests`
 
-Installation is very basic, just: 
+Installation is very basic, just:
 
 1. Clone this repository into any directory:
 
         git clone https://github.com/Link-/uber_data.git
-    
-2. Install dependencies (there aren't any at the moment) and build the `autoload` file:
+
+2. Install dependencies and build the `autoload` file:
 
         $: composer install
-    
+
 3. Build your `App.php` configuration file:
 
-        $: cd src/Config
-        $: mv App.example.php App.php
-        $: nano App.php
+#### Using CLI
+This repository ships with a handy command-line interface companion named `uberc` - located at `./bin/uberc`
 
-4. Add your Uber Username and Password into the `App.php` file:
+1. Add `./bin` to your path with
 
-        /**
-         * Uber Account Username
-         */
-        'username' => 'name@email.com',
-        
-        /**
-         * Uber Account Password
-         */
-        'password' => 'mypassword',
- 
-5. Change the `data_storage_dir` and `parsed_data_dir` to where you would like to store the cached html files and the generated CSV file respectively.
+    ```
+    export PATH="$PATH:./bin"
+    ```
+2. Configure (this has to be done only once)
 
-6. Adjust the `timezone` to your current location.
-  
+    ```
+    uberc config
+    ```
+3. Analyze: Will generate the analytics files in the desired directories specified at the config step
+
+    ```
+    uberc analyze
+    ```
+
+#### Manually
+```
+$: cd src/Config
+$: mv App.example.php App.php
+$: nano App.php
+```
+
+1. Add your Uber Username and Password into the `App.php` file:
+
+    ```php
+    /**
+     * Uber Account Username
+     */
+    'username' => 'name@email.com',
+
+    /**
+     * Uber Account Password
+     */
+    'password' => 'mypassword',
+    ```
+
+2. Change the `data_storage_dir` and `parsed_data_dir` to where you would like to store the cached html files and the generated CSV file respectively.
+
+3. Adjust the `timezone` to your current location.
+
 ### Execution
 
 Run the script as such:
