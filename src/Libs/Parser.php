@@ -50,7 +50,7 @@ class Parser
 
     /**
      * [__construct description].
-     * 
+     *
      * @param string $html [description]
      */
     public function __construct($html = '')
@@ -91,7 +91,7 @@ class Parser
 
     /**
      * Returns the instance of TripsCollection.
-     * 
+     *
      * @return [type] [description]
      */
     public function getTripsCollection()
@@ -113,7 +113,7 @@ class Parser
 
     /**
      * Loads the HTML into the DOMDocument
-     * then calls the parseDataTable() 
+     * then calls the parseDataTable()
      * to generate the TripDetails and add
      * them to the TripsCollection.
      *
@@ -142,8 +142,10 @@ class Parser
     public function loadHTML($html)
     {
         if (empty($html)) {
-            throw new GeneralException('Cannot parse empty HTML Document!',
-                                       'FATAL');
+            throw new GeneralException(
+                'Cannot parse empty HTML Document!',
+                'FATAL'
+            );
         }
 
         $this->_rawHTMLData = $html;
@@ -184,7 +186,7 @@ class Parser
      * Parses the Data Table from the Uber Page. Do not call this
      * method if _DomXPath has not been initialized.
      *
-     * It will add the parsed TripDetails into the _tripsCollection 
+     * It will add the parsed TripDetails into the _tripsCollection
      * instance and will always return True or False depending
      * on whether the _tripsCollection is Empty or Not.
      *
@@ -193,10 +195,11 @@ class Parser
     public function parseDataTable()
     {
         if (!$this->_DomXPath) {
-            throw new GeneralException('Cannot Parse the data table as'.  
-                                       '_DomXPath has not been initialized '. 
-                                       'yet!',
-                                       'FATAL');
+            throw new GeneralException(
+                'Cannot Parse the data table as _DomXPath has not '.
+                'been initialized yet!',
+                'FATAL'
+            );
         }
 
         // Get the elements with the class name 'trip-expand__origin'
@@ -217,9 +220,11 @@ class Parser
             $tripA = [];
             foreach ($node->childNodes as $child) {
                 // Remove unwanted Unicode characters
-                $content = preg_replace("/^[\pZ\pC]+|[\pZ\pC]+$/u",
-                                        '',
-                                        $child->textContent);
+                $content = preg_replace(
+                    "/^[\pZ\pC]+|[\pZ\pC]+$/u",
+                    '',
+                    $child->textContent
+                );
                 array_push($tripA, $content);
             }
             // Set the trip details

@@ -38,8 +38,10 @@ class HelperTest extends TestCase
         // Test 3rd Level & Permissions
         $permission = 0644;
         $this->assertFalse($this->_root->hasChild('tDir1/tDir2/tDir3'));
-        Helper::makedirs(vfsStream::url('testDir/tDir1/tDir2/tDir3'), 
-                         $permission);
+        Helper::makedirs(
+            vfsStream::url('testDir/tDir1/tDir2/tDir3'),
+            $permission
+        );
         
         $this->assertTrue($this->_root->hasChild('tDir1/tDir2/tDir3'));
         $this->assertEquals(0644, $this->_root

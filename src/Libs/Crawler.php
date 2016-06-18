@@ -80,14 +80,18 @@ class Crawler
     public function setLoginURL($url)
     {
         if (empty($url)) {
-            throw new GeneralException('Login URL cannot be empty!',
-                                 'FATAL');
+            throw new GeneralException(
+                'Login URL cannot be empty!',
+                'FATAL'
+            );
         }
 
         if (!filter_var($url, FILTER_VALIDATE_URL)) {
-            throw new GeneralException('Invalid Login URL configured. '.
-                                 'Check your App.php config file.',
-                                 'FATAL');
+            throw new GeneralException(
+                'Invalid Login URL configured. '.
+                'Check your App.php config file.',
+                'FATAL'
+            );
         }
 
         $this->_uberLoginURL = $url;
@@ -111,14 +115,18 @@ class Crawler
     public function setTripsURL($url)
     {
         if (empty($url)) {
-            throw new GeneralException('Trips URL cannot be empty!',
-                                 'FATAL');
+            throw new GeneralException(
+                'Trips URL cannot be empty!',
+                'FATAL'
+            );
         }
 
         if (!filter_var($url, FILTER_VALIDATE_URL)) {
-            throw new GeneralException('Invalid Trips URL configured. '.
-                                 'Check your App.php config file.',
-                                 'FATAL');
+            throw new GeneralException(
+                'Invalid Trips URL configured. '.
+                'Check your App.php config file.',
+                'FATAL'
+            );
         }
 
         $this->_uberTripsURL = $url;
@@ -138,7 +146,6 @@ class Crawler
 
     /**
      * [getTripsCollection description].
-     * 
      * @return [type] [description]
      */
     public function getTripsCollection()
@@ -146,7 +153,7 @@ class Crawler
         return $this->_parser->getTripsCollection();
     }
 
-    /** 
+    /**
      * [execute description].
      *
      * @codeCoverageIgnore
@@ -168,84 +175,106 @@ class Crawler
      *
      * @return [type] [description]
      */
-    protected function setCurlOptions($post = false,
-                                    $postFields = '',
-                                    $headers = [],
-                                    $url = '',
-                                    $autoref = true,
-                                    $returnTrans = true)
-    {
+    protected function setCurlOptions(
+        $post = false,
+        $postFields = '',
+        $headers = [],
+        $url = '',
+        $autoref = true,
+        $returnTrans = true
+    ) {
 
         /*
         * If URL is specified use it, else
         * use the default login url
         */
-        curl_setopt($this->_curlHandle,
-                    CURLOPT_URL,
-                    empty($url) ? $this->_uberLoginURL : $url);
-
+        curl_setopt(
+            $this->_curlHandle,
+            CURLOPT_URL,
+            empty($url) ? $this->_uberLoginURL : $url
+        );
         /*
          * Request Timeout
          */
-        curl_setopt($this->_curlHandle,
-                    CURLOPT_TIMEOUT,
-                    App::$APP_SETTINGS['curl_timeout']);
+        curl_setopt(
+            $this->_curlHandle,
+            CURLOPT_TIMEOUT,
+            App::$APP_SETTINGS['curl_timeout']
+        );
         /*
          * Session Data Storage File
          */
-        curl_setopt($this->_curlHandle,
-                    CURLOPT_COOKIEJAR,
-                    App::$APP_SETTINGS['cookies_storage_file']);
+        curl_setopt(
+            $this->_curlHandle,
+            CURLOPT_COOKIEJAR,
+            App::$APP_SETTINGS['cookies_storage_file']
+        );
         /*
          * Session Data Storage File
          */
-        curl_setopt($this->_curlHandle,
-                    CURLOPT_COOKIEFILE,
-                    App::$APP_SETTINGS['cookies_storage_file']);
+        curl_setopt(
+            $this->_curlHandle,
+            CURLOPT_COOKIEFILE,
+            App::$APP_SETTINGS['cookies_storage_file']
+        );
 
         /*
          * TBD
          */
-        curl_setopt($this->_curlHandle,
-                    CURLOPT_AUTOREFERER,
-                    $autoref);
+        curl_setopt(
+            $this->_curlHandle,
+            CURLOPT_AUTOREFERER,
+            $autoref
+        );
 
         /*
          * TBD
          */
-        curl_setopt($this->_curlHandle,
-                    CURLOPT_FOLLOWLOCATION,
-                    true);
+        curl_setopt(
+            $this->_curlHandle,
+            CURLOPT_FOLLOWLOCATION,
+            true
+        );
 
         /*
          * 
          */
-        curl_setopt($this->_curlHandle,
-                    CURLOPT_RETURNTRANSFER,
-                    $returnTrans);
+        curl_setopt(
+            $this->_curlHandle,
+            CURLOPT_RETURNTRANSFER,
+            $returnTrans
+        );
 
         /*
          * 
          */
-        curl_setopt($this->_curlHandle,
-                    CURLOPT_USERAGENT,
-                    App::$APP_SETTINGS['user_agent']);
+        curl_setopt(
+            $this->_curlHandle,
+            CURLOPT_USERAGENT,
+            App::$APP_SETTINGS['user_agent']
+        );
 
         /*
          * POST Request
          */
         if ($post) {
-            curl_setopt($this->_curlHandle,
-                    CURLOPT_HTTPHEADER,
-                    $headers);
+            curl_setopt(
+                $this->_curlHandle,
+                CURLOPT_HTTPHEADER,
+                $headers
+            );
 
-            curl_setopt($this->_curlHandle,
-                      CURLOPT_POST,
-                      $post);
+            curl_setopt(
+                $this->_curlHandle,
+                CURLOPT_POST,
+                $post
+            );
 
-            curl_setopt($this->_curlHandle,
-                      CURLOPT_POSTFIELDS,
-                      $postFields);
+            curl_setopt(
+                $this->_curlHandle,
+                CURLOPT_POSTFIELDS,
+                $postFields
+            );
         }
     }
 
@@ -269,16 +298,20 @@ class Crawler
             // Check that we have successfully retrieved the
             // token
             if (empty($this->_csrf_token)) {
-                throw new GeneralException('Grabbing CSRF Token Failed - Empty',
-                                       'FATAL');
+                throw new GeneralException(
+                    'Grabbing CSRF Token Failed - Empty',
+                    'FATAL'
+                );
             }
 
             Helper::printOut("CSRF TOKEN: {$this->_csrf_token}");
         } else {
             // Failed to retrieve CSRF Token
             $errorMessage = curl_error($this->_curlHandle);
-            throw new GeneralException('Grabbing CSRF Token Failed',
-                                     'FATAL');
+            throw new GeneralException(
+                'Grabbing CSRF Token Failed',
+                'FATAL'
+            );
         }
 
         // If we get here, the CSRF token
@@ -326,9 +359,11 @@ class Crawler
         // Set Header information (Form POST Request)
         $headers[] = 'Content-Type: application/x-www-form-urlencoded; charset=utf-8';
         // Set cURL Options
-        $this->setCurlOptions(true,
-                              $loginString,
-                              $headers);
+        $this->setCurlOptions(
+            true,
+            $loginString,
+            $headers
+        );
 
         // Execute the Request
         $postLoginRawData = curl_exec($this->_curlHandle);
@@ -343,10 +378,12 @@ class Crawler
             $this->getNextPagesData();
         } else {
             // Failed to Login
-          $errorMessage = curl_error($this->_curlHandle);
-            throw new GeneralException('Login Attempt Failed! '.
-                                       $errorMessage,
-                                       'FATAL');
+            $errorMessage = curl_error($this->_curlHandle);
+            throw new GeneralException(
+                'Login Attempt Failed! '.
+                $errorMessage,
+                'FATAL'
+            );
         }
     }
 
@@ -366,10 +403,12 @@ class Crawler
 
             Helper::printOut("Retrieving Page: {$i}");
             // Set cURL Options
-            $this->setCurlOptions(false,
-                                  '',
-                                  [],
-                                  $pageUrl);
+            $this->setCurlOptions(
+                false,
+                '',
+                [],
+                $pageUrl
+            );
 
             // Execute the Request
             $pageRawData = curl_exec($this->_curlHandle);
@@ -383,9 +422,11 @@ class Crawler
             } else {
                 // Failed to Retrieve all pages
                 $errorMessage = curl_error($this->_curlHandle);
-                throw new GeneralException('Failed to retrieve all pages! '.
-                                             $errorMessage,
-                                             'FATAL');
+                throw new GeneralException(
+                    'Failed to retrieve all pages! '.
+                    $errorMessage,
+                    'FATAL'
+                );
             }
         }
 
@@ -403,9 +444,10 @@ class Crawler
      *
      * @return [type] [description]
      */
-    protected function storeIntoFile($data,
-                                   $pageNumb = 1)
-    {
+    protected function storeIntoFile(
+        $data,
+        $pageNumb = 1
+    ) {
         // Get the appropriate filename
         $fileName = $this->buildStorageFilePath($pageNumb);
         // Build the necessary dirs if they
@@ -427,14 +469,15 @@ class Crawler
         // Build the filename
         $fileName = "data-page_{$pageNumb}.html";
 
-        return implode(DIRECTORY_SEPARATOR,
-                       [App::$APP_SETTINGS['data_storage_dir'],
-                       $fileName]);
+        return implode(
+            DIRECTORY_SEPARATOR,
+            [App::$APP_SETTINGS['data_storage_dir'],
+            $fileName]
+        );
     }
 
     /**
      * [getLoginString description].
-     * 
      * @return [type] [description]
      */
     protected function getLoginString()

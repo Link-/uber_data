@@ -19,11 +19,13 @@ class GeneralException extends \Exception
      * @param int             $code     [description]
      * @param \Exception|null $previous [description]
      */
-    public function __construct($message = '',
-                              $type = 'FATAL',
-                              $code = 0,
-                              \Exception $previous = null)
-    {
+    public function __construct(
+        $message = '',
+        $type = 'FATAL',
+        $code = 0,
+        \Exception $previous = null
+    ) {
+    
         parent::__construct($message, $code, $previous);
         // Take an exception type
         $this->_type = $type;
@@ -31,7 +33,7 @@ class GeneralException extends \Exception
 
     /**
      * [__toString description].
-     * 
+     *
      * @return string [description]
      */
     public function __toString()

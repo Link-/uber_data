@@ -38,8 +38,10 @@ class TripsCollectionTest extends TestCase
         $this->assertFalse($this->_tripsCollection->isEmpty());
         // Check if the last insert item is actually
         // a TripDetails Object
-        $this->assertInstanceOf(TripDetails::class,
-                                $this->_tripsCollection->current());
+        $this->assertInstanceOf(
+            TripDetails::class,
+            $this->_tripsCollection->current()
+        );
     }
 
     public function testAddTripException()

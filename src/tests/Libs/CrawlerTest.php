@@ -29,12 +29,15 @@ class CrawlerTest extends TestCase
      * @dataProvider validURLProvider
      * @covers UberCrawler\Libs\Crawler::setLoginURL
      */
-    public function testsetLoginURLSuccess($url,
-                                         $expected)
-    {
+    public function testsetLoginURLSuccess(
+        $url,
+        $expected
+    ) {
         $this->_crawler->setLoginURL($url);
-        $this->assertEquals($expected, 
-                            ($this->_crawler->getLoginURL() == $url));
+        $this->assertEquals(
+            $expected,
+            ($this->_crawler->getLoginURL() == $url)
+        );
     }
 
     /**
@@ -51,12 +54,15 @@ class CrawlerTest extends TestCase
      * @dataProvider validURLProvider
      * @covers UberCrawler\Libs\Crawler::setTripsURL
      */
-    public function testsetTripsURLSuccess($url,
-                                         $expected)
-    {
+    public function testsetTripsURLSuccess(
+        $url,
+        $expected
+    ) {
         $this->_crawler->setTripsURL($url);
-        $this->assertEquals($expected, 
-                            ($this->_crawler->getTripsURL() == $url));
+        $this->assertEquals(
+            $expected,
+            ($this->_crawler->getTripsURL() == $url)
+        );
     }
 
     /**
@@ -72,20 +78,20 @@ class CrawlerTest extends TestCase
     public function validURLProvider()
     {
         return [
-          ['https://login.uber.com/login', true],
-          ['http://login.uber.com/login', true],
+            ['https://login.uber.com/login', true],
+            ['http://login.uber.com/login', true],
         ];
     }
 
     public function invalidURLProvider()
     {
         return [
-          [''],
-          ['login'],
-          ['login.uber.com'],
-          ['www.login.uber.com'],
-          ['1234'],
-          [1234],
+            [''],
+            ['login'],
+            ['login.uber.com'],
+            ['www.login.uber.com'],
+            ['1234'],
+            [1234],
         ];
     }
 
@@ -96,14 +102,18 @@ class CrawlerTest extends TestCase
 
     public function testgetParser()
     {
-        $this->assertInstanceOf(Parser::class,
-                                $this->_crawler->getParser());
+        $this->assertInstanceOf(
+            Parser::class,
+            $this->_crawler->getParser()
+        );
     }
 
     public function testgetTripsCollection()
     {
-        $this->assertInstanceOf(TripsCollection::class,
-                                $this->_crawler->getTripsCollection());
+        $this->assertInstanceOf(
+            TripsCollection::class,
+            $this->_crawler->getTripsCollection()
+        );
     }
 
     public function testexecute()

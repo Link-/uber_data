@@ -21,8 +21,10 @@ class ParserTest extends TestCase
 
     public function testgetTripsCollection()
     {
-        $this->assertInstanceOf(TripsCollection::class,
-                                $this->_parser->getTripsCollection());
+        $this->assertInstanceOf(
+            TripsCollection::class,
+            $this->_parser->getTripsCollection()
+        );
     }
 
     /**
@@ -30,7 +32,6 @@ class ParserTest extends TestCase
      */
     public function testparsePage($html, $expected)
     {
-
         // Empty html provided
         $this->assertFalse($this->_parser->parsePage(''));
 
@@ -40,7 +41,6 @@ class ParserTest extends TestCase
 
     public function uberHtmlProvider()
     {
-
         // Read the HTML from a sample file
         $file = __DIR__.DIRECTORY_SEPARATOR.'../_sample_data/sample.html';
         $goodHTML = file_get_contents($file);
@@ -57,7 +57,6 @@ EOD;
 
     public function testloadHTML()
     {
-
         // Positive test
         $goodHTML = <<<EOD
         <html><body><div>Test</div></body></html>
@@ -82,7 +81,6 @@ EOD;
 
     public function paginationProvider()
     {
-
         // Read the HTML from a sample file
         $file = __DIR__.DIRECTORY_SEPARATOR.'../_sample_data/sample.html';
         $goodHTML = file_get_contents($file);
@@ -100,12 +98,14 @@ EOD;
     /**
      * @dataProvider dataTableProvider
      */
-    public function testparseDataTable($html,
-                                     $expectedBool,
-                                     $expectedSize)
-    {
+    public function testparseDataTable(
+        $html,
+        $expectedBool,
+        $expectedSize
+    ) {
+    
         // parseDataTable returns True or False
-        // based on whether the TripsCollection 
+        // based on whether the TripsCollection
         // instance is empty or not
         $this->_parser->loadHTML($html);
         $this->assertEquals($expectedBool, $this->_parser->parseDataTable());
@@ -133,12 +133,14 @@ EOD;
     /**
      * @dataProvider htmlProvider
      */
-    public function testgetInnerHTML($html,
-                                   $parentId,
-                                   $element,
-                                   $numb,
-                                   $innerHTML)
-    {
+    public function testgetInnerHTML(
+        $html,
+        $parentId,
+        $element,
+        $numb,
+        $innerHTML
+    ) {
+    
 
         // Load the HTML, then retrieve the instance
         // of DomDocument and finally call the getInnerHTML
@@ -146,17 +148,19 @@ EOD;
         $this->_parser->loadHTML($html);
         $dom = $this->_parser->getDomDocument();
         $listNodes = $dom->getElementById($parentId);
-        $this->assertEquals($innerHTML,
-                            $this->_parser
-                                 ->getInnerHTML($listNodes->childNodes[$numb]));
+        $this->assertEquals(
+            $innerHTML,
+            $this->_parser
+            ->getInnerHTML($listNodes->childNodes[$numb])
+        );
     }
 
     /**
      * Provider of a basic HTML structure
-     * There seems to be a problem that I'm not able to 
+     * There seems to be a problem that I'm not able to
      * identify the reason why it happens with the index
      * of elements when retrieving childNodes
-     * the first element is 0 and the second is not 1 as 
+     * the first element is 0 and the second is not 1 as
      * expected but 2.
      *
      * @return [type] [description]

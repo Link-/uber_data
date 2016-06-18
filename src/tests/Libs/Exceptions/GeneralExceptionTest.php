@@ -10,9 +10,11 @@ class GeneralExceptionTest extends TestCase
         $output = "UberCrawler\Libs\Exceptions\GeneralException: ".
               "[FATAL]::: test message\n";
 
-        $exception = new GeneralException('test message',
-                                      'FATAL',
-                                      0);
+        $exception = new GeneralException(
+            'test message',
+            'FATAL',
+            0
+        );
 
         $this->assertEquals($output, $exception->__toString());
     }

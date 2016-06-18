@@ -6,7 +6,7 @@ use UberCrawler\Config\App as App;
 use UberCrawler\Libs\Exceptions\GeneralException as GeneralException;
 
 /**
- * 
+ *
  */
 class TripDetails
 {
@@ -61,9 +61,10 @@ class TripDetails
     public function setPickupDate($date)
     {
         if (empty($date)) {
-            throw new GeneralException('Date parameter has to be defined - '.
-                                     'it cannot be empty',
-                                     'FATAL');
+            throw new GeneralException(
+                'Date parameter has to be defined - it cannot be empty',
+                'FATAL'
+            );
         }
 
         // Handle an exceptional scenario where the uber date
@@ -83,10 +84,11 @@ class TripDetails
         $errors = \DateTime::getLastErrors();
         if (!empty($errors['warning_count']) ||
             !empty($errors['error_count'])) {
-            throw new GeneralException('Data format provided is not supported'.
-                                       ' - submit an issue on Github'.
-                                       'for a fix',
-                                       'FATAL');
+            throw new GeneralException(
+                'Data format provided is not supported - submit an issue '.
+                'on Github for a fix',
+                'FATAL'
+            );
         }
 
         return true;
@@ -114,9 +116,10 @@ class TripDetails
     public function setDriverName($name)
     {
         if (empty($name)) {
-            throw new GeneralException('Driver Name parameter has to be'.
-                                     ' defined - it cannot be empty',
-                                     'FATAL');
+            throw new GeneralException(
+                'Driver Name parameter has to be defined - it cannot be empty',
+                'FATAL'
+            );
         }
 
         $this->_driverName = $name;
@@ -160,9 +163,10 @@ class TripDetails
     public function setCarType($type)
     {
         if (empty($type)) {
-            throw new GeneralException('Type parameter has to be defined - '.
-                                       'it cannot be empty',
-                                       'FATAL');
+            throw new GeneralException(
+                'Type parameter has to be defined - it cannot be empty',
+                'FATAL'
+            );
         }
 
         $this->_carType = $type;
@@ -178,9 +182,10 @@ class TripDetails
     public function setCity($city)
     {
         if (empty($city)) {
-            throw new GeneralException('City parameter has to be defined - '.
-                             'it cannot be empty',
-                             'FATAL');
+            throw new GeneralException(
+                'City parameter has to be defined - it cannot be empty',
+                'FATAL'
+            );
         }
 
         $this->_city = $city;
@@ -196,9 +201,10 @@ class TripDetails
     public function setMapURL($url)
     {
         if (empty($url)) {
-            throw new GeneralException('Map URL parameter has to be defined'.
-                                       ' - it cannot be empty',
-                                       'FATAL');
+            throw new GeneralException(
+                'Map URL parameter has to be defined - it cannot be empty',
+                'FATAL'
+            );
         }
 
         $this->_mapUrl = $url;
@@ -206,25 +212,27 @@ class TripDetails
 
     /**
      * [setTripDetails description].
-     * 
+     *
      * @param [type] $details [description]
      */
     public function setTripDetails($details)
     {
         if (empty($details)) {
-            throw new GeneralException('Trip Details Array has to be defined'.
-                                       ' - it cannot be empty',
-                                       'FATAL');
+            throw new GeneralException(
+                'Trip Details Array has to be defined - it cannot be empty',
+                'FATAL'
+            );
         }
 
         if (count($details) < 5) {
-            throw new GeneralException('Trip Details Array cannot be less '.
-                                       'than 6 items ',
-                                       'FATAL');
+            throw new GeneralException(
+                'Trip Details Array cannot be less than 6 items ',
+                'FATAL'
+            );
         }
 
-        // Skip the first element (which is a visual element) 
-        // and start from index 1 
+        // Skip the first element (which is a visual element)
+        // and start from index 1
         $this->setPickupDate($details[1]);
         $this->setDriverName($details[2]);
         $this->setFareValue(trim($details[3]));
@@ -233,7 +241,7 @@ class TripDetails
     }
 
     /**
-     * Return an array of this object's 
+     * Return an array of this object's
      * member variables/properties.
      *
      * @return [type] [description]

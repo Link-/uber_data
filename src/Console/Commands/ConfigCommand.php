@@ -18,58 +18,56 @@ class ConfigCommand extends Command
    *
    * @var string
    */
-  private $_configPath = __DIR__.'/../../Config/';
+    private $_configPath = __DIR__.'/../../Config/';
 
   /**
    * The name of the config file.
    *
    * @var string
    */
-  private $_configFileName = 'App.php';
+    private $_configFileName = 'App.php';
 
   /**
    * The name of the stub config file.
    *
    * @var string
    */
-  private $_configStubFileName = 'App.example.php';
+    private $_configStubFileName = 'App.example.php';
 
   /**
    * Default config values.
    *
    * @var array
    */
-  private $defaults = [
+    private $defaults = [
       'data_storage_dir' => 'uber-data',
       'parsed_data_dir' => 'uber-parsed',
-  ];
+    ];
 
   /**
    * Returns the set default configuration
    *
    * @return [type] [description]
    */
-  public function getDefaultConfigurationArray() {
-
-    return [
-      'configPath' => $this->_configPath,
-      'configFileName' => $this->_configFileName,
-      'configStubFileName' => $this->_configStubFileName
-    ];
-
-  }
+    public function getDefaultConfigurationArray()
+    {
+        return [
+            'configPath' => $this->_configPath,
+            'configFileName' => $this->_configFileName,
+            'configStubFileName' => $this->_configStubFileName
+        ];
+    }
 
   /**
    * Configure the command options.
    *
    * @return void
    */
-  protected function configure() {
-
-    $this->setName('config')
-         ->setDescription('Configure the Uber Crawler.');
-
-  }
+    protected function configure()
+    {
+        $this->setName('config')
+        ->setDescription('Configure the Uber Crawler.');
+    }
 
   /**
    * Execute the command.
@@ -79,41 +77,44 @@ class ConfigCommand extends Command
    *
    * @return void
    */
-  protected function execute(InputInterface $input, OutputInterface $output) {
-
-    $output->writeln("<comment>Let us configure your ". 
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $output->writeln("<comment>Let us configure your ".
                      "Uber Crawler</comment>\n");
 
-    // get the questions helper instance
-    $helper = $this->getHelper('question');
+        // get the questions helper instance
+        $helper = $this->getHelper('question');
 
-    // ask for username
-    $username = $this->askForUsername($helper, $input, $output);
+        // ask for username
+        $username = $this->askForUsername($helper, $input, $output);
 
-    // ask for password
-    $password = $this->askForPassword($helper, $input, $output);
+        // ask for password
+        $password = $this->askForPassword($helper, $input, $output);
 
-    // ask for crawled data storage path
-    $dataStoragePath = $this->askForDataStoragePath($helper, $input, $output);
+        // ask for crawled data storage path
+        $dataStoragePath = $this->askForDataStoragePath($helper, $input, $output);
 
-    // ask for parsed data storage path
-    $parsedDataStoragePath = $this->askForParsedDataStoragePath($helper, $input, $output);
+        // ask for parsed data storage path
+        $parsedDataStoragePath = $this->askForParsedDataStoragePath($helper, $input, $output);
 
-    // write the App.php config file
-    $isWritten =$this->writeConfigFileWithInput($username, 
-                                                $password, 
-                                                $dataStoragePath, 
-                                                $parsedDataStoragePath);
+        // write the App.php config file
+        $isWritten =$this->writeConfigFileWithInput(
+            $username,
+            $password,
+            $dataStoragePath,
+            $parsedDataStoragePath
+        );
 
-    if (!(bool) $isWritten) {
-        throw GeneralException('Could not write config file.',
-                               'FATAL');
+        if (!(bool) $isWritten) {
+            throw GeneralException(
+                'Could not write config file.',
+                'FATAL'
+            );
+        }
+
+        $output->writeln("<info>INFO: Written config file 🤘🏻</info>\n");
+        $output->writeln('<comment>now to analyze, run "uberc analyze"</comment>');
     }
-
-    $output->writeln("<info>INFO: Written config file 🤘🏻</info>\n");
-    $output->writeln('<comment>now to analyze, run "uberc analyze"</comment>');
-
-  }
 
   /**
    * Promot for username.
@@ -124,26 +125,28 @@ class ConfigCommand extends Command
    *
    * @return string
    */
-  private function askForUsername(QuestionHelper $helper, 
-                                  InputInterface $input, 
-                                  OutputInterface $output) {
+    private function askForUsername(
+        QuestionHelper $helper,
+        InputInterface $input,
+        OutputInterface $output
+    ) {
+        // create question
+        $question = new Question('<info>Username:</info> ');
+        // validate question value
+        $question->setValidator(function ($value) {
+            if (trim($value) == '') {
+                throw new GeneralException(
+                    'The username can not be empty',
+                    'FATAL'
+                );
+            }
 
-    // create question
-    $question = new Question('<info>Username:</info> ');
-    // validate question value
-    $question->setValidator(function ($value) {
-        if (trim($value) == '') {
-            throw new GeneralException('The username can not be empty', 
-                                       'FATAL');
-        }
+            return $value;
+        });
 
-        return $value;
-    });
-
-    // prompt and return input
-    return $helper->ask($input, $output, $question);
-
-  }
+        // prompt and return input
+        return $helper->ask($input, $output, $question);
+    }
 
   /**
    * Prompt for Password.
@@ -154,28 +157,30 @@ class ConfigCommand extends Command
    *
    * @return string
    */
-  private function askForPassword(QuestionHelper $helper, 
-                                  InputInterface $input, 
-                                  OutputInterface $output) {
+    private function askForPassword(
+        QuestionHelper $helper,
+        InputInterface $input,
+        OutputInterface $output
+    ) {
+        // create question
+        $question = new Question('<info>Password:</info> ');
+        $question->setHidden(true);
+        $question->setHiddenFallback(false);
+        // validate question value
+        $question->setValidator(function ($value) {
+            if (trim($value) == '') {
+                throw new GeneralException(
+                    'The password can not be empty',
+                    'FATAL'
+                );
+            }
 
-    // create question
-    $question = new Question('<info>Password:</info> ');
-    $question->setHidden(true);
-    $question->setHiddenFallback(false);
-    // validate question value
-    $question->setValidator(function ($value) {
-        if (trim($value) == '') {
-            throw new GeneralException('The password can not be empty', 
-                                       'FATAL');
-        }
+            return $value;
+        });
 
-        return $value;
-    });
-
-    // prompt and return input
-    return $helper->ask($input, $output, $question);
-
-  }
+        // prompt and return input
+        return $helper->ask($input, $output, $question);
+    }
 
   /**
    * Prompt for crawled data storage directory path.
@@ -186,22 +191,22 @@ class ConfigCommand extends Command
    *
    * @return string
    */
-  private function askForDataStoragePath(QuestionHelper $helper, 
-                                         InputInterface $input, 
-                                         OutputInterface $output) {
+    private function askForDataStoragePath(
+        QuestionHelper $helper,
+        InputInterface $input,
+        OutputInterface $output
+    ) {
+        // create question
+        $question = new Question(
+            '<info>Where would you like to have the crawled files stored?'.
+            ' <comment>[./'.$this->defaults['data_storage_dir'].']</comment>'.
+            ' </info>',
+            __DIR__.'/../../../'.$this->defaults['data_storage_dir']
+        );
 
-    // create question
-    $question = new Question(
-        '<info>Where would you like to have the crawled files stored?'. 
-        ' <comment>[./'.$this->defaults['data_storage_dir'].']</comment>'. 
-        ' </info>',
-        __DIR__.'/../../../'.$this->defaults['data_storage_dir']
-    );
-
-    // prompt and return input
-    return $helper->ask($input, $output, $question);
-
-  }
+        // prompt and return input
+        return $helper->ask($input, $output, $question);
+    }
 
   /**
    * Prompt for parsed data storage directory path.
@@ -212,22 +217,22 @@ class ConfigCommand extends Command
    *
    * @return string
    */
-  private function askForParsedDataStoragePath(QuestionHelper $helper,
-                                               InputInterface $input, 
-                                               OutputInterface $output) {
+    private function askForParsedDataStoragePath(
+        QuestionHelper $helper,
+        InputInterface $input,
+        OutputInterface $output
+    ) {
+        // create question
+        $question = new Question(
+            '<info>Where would you like to have the pared files stored?'.
+            ' <comment>[./'.$this->defaults['parsed_data_dir'].']</comment>'.
+            ' </info> ',
+            __DIR__.'/../../../'.$this->defaults['parsed_data_dir']
+        );
 
-    // create question
-    $question = new Question(
-        '<info>Where would you like to have the pared files stored?'.
-        ' <comment>[./'.$this->defaults['parsed_data_dir'].']</comment>'.
-        ' </info> ',
-        __DIR__.'/../../../'.$this->defaults['parsed_data_dir']
-    );
-
-    // prompt and return input
-    return $helper->ask($input, $output, $question);
-
-  }
+        // prompt and return input
+        return $helper->ask($input, $output, $question);
+    }
 
   /**
    * Write (overwrite) the given data into the config file (App.php)
@@ -239,24 +244,24 @@ class ConfigCommand extends Command
    *
    * @return int The status of the write to disk.
    */
-  private function writeConfigFileWithInput($username, 
-                                            $password, 
-                                            $dataStoragePath, 
-                                            $parsedDataStoragePath) {
+    private function writeConfigFileWithInput(
+        $username,
+        $password,
+        $dataStoragePath,
+        $parsedDataStoragePath
+    ) {
+        $config = $this->getStub();
 
-    $config = $this->getStub();
+        $config = $this->replaceUsername($username, $config);
 
-    $config = $this->replaceUsername($username, $config);
+        $config = $this->replacePassword($password, $config);
 
-    $config = $this->replacePassword($password, $config);
+        $config = $this->replaceDataStoragePath($dataStoragePath, $config);
 
-    $config = $this->replaceDataStoragePath($dataStoragePath, $config);
+        $config = $this->replaceParsedDataStoragePath($parsedDataStoragePath, $config);
 
-    $config = $this->replaceParsedDataStoragePath($parsedDataStoragePath, $config);
-
-    return $this->writeConfig($config);
-
-  }
+        return $this->writeConfig($config);
+    }
 
   /**
    * Get the contents of the stub config file
@@ -264,20 +269,20 @@ class ConfigCommand extends Command
    * @return string
    * @throws \GeneralException
    */
-  private function getStub()
-  {
+    private function getStub()
+    {
+        $appStubPath = $this->_configPath.$this->_configStubFileName;
 
-    $appStubPath = $this->_configPath.$this->_configStubFileName;
-
-    if (!file_exists($appStubPath)) {
-        throw new GeneralException('Could not find the Config stub' . 
+        if (!file_exists($appStubPath)) {
+            throw new GeneralException(
+                'Could not find the Config stub' .
                                    ' file at '.$appStubPath,
-                                   'FATAL');
+                'FATAL'
+            );
+        }
+
+        return file_get_contents($appStubPath);
     }
-
-    return file_get_contents($appStubPath);
-
-  }
 
   /**
    * Replace the username value in the given config stub.
@@ -287,13 +292,14 @@ class ConfigCommand extends Command
    *
    * @return string
    */
-  private function replaceUsername($username, $stub) {
-
-    return str_replace("'username' => ''", 
-                       "'username' => '$username'", 
-                       $stub);
-
-  }
+    private function replaceUsername($username, $stub)
+    {
+        return str_replace(
+            "'username' => ''",
+            "'username' => '$username'",
+            $stub
+        );
+    }
 
   /**
    * Replace the password value in the given config stub.
@@ -303,13 +309,14 @@ class ConfigCommand extends Command
    *
    * @return string
    */
-  private function replacePassword($password, $stub) {
-
-    return str_replace("'password' => ''", 
-                       "'password' => '$password'", 
-                       $stub);
-
-  }
+    private function replacePassword($password, $stub)
+    {
+        return str_replace(
+            "'password' => ''",
+            "'password' => '$password'",
+            $stub
+        );
+    }
 
   /**
    * Replace the crawled data storage path value in the given config stub.
@@ -319,13 +326,14 @@ class ConfigCommand extends Command
    *
    * @return string
    */
-  private function replaceDataStoragePath($path, $stub) {
-
-    return str_replace("'data_storage_dir' => '/tmp/uber-data'", 
-                       "'data_storage_dir' => '$path'", 
-                       $stub);
-
-  }
+    private function replaceDataStoragePath($path, $stub)
+    {
+        return str_replace(
+            "'data_storage_dir' => '/tmp/uber-data'",
+            "'data_storage_dir' => '$path'",
+            $stub
+        );
+    }
 
   /**
    * Replace the parsed data storage path value in the given config stub.
@@ -335,13 +343,14 @@ class ConfigCommand extends Command
    *
    * @return string
    */
-  private function replaceParsedDataStoragePath($path, $stub) {
-
-    return str_replace("'parsed_data_dir' => '/tmp/uber-parsed'", 
-                       "'parsed_data_dir' => '$path'", 
-                       $stub);
-
-  }
+    private function replaceParsedDataStoragePath($path, $stub)
+    {
+        return str_replace(
+            "'parsed_data_dir' => '/tmp/uber-parsed'",
+            "'parsed_data_dir' => '$path'",
+            $stub
+        );
+    }
 
   /**
    * Write the given contents into the config file.
@@ -350,10 +359,11 @@ class ConfigCommand extends Command
    *
    * @return string
    */
-  private function writeConfig($contents) {
-
-    return file_put_contents($this->_configPath.$this->_configFileName, 
-                             $contents);
-
-  }
+    private function writeConfig($contents)
+    {
+        return file_put_contents(
+            $this->_configPath.$this->_configFileName,
+            $contents
+        );
+    }
 }

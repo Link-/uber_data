@@ -22,9 +22,11 @@ class Helper
     *
     * @return [type]  [description]
     */
-    public static function makedirs($dirpath,
-                                  $mode = 0755)
-    {
+    public static function makedirs(
+        $dirpath,
+        $mode = 0755
+    ) {
+    
         return is_dir($dirpath) || mkdir($dirpath, $mode, true);
     }
 }

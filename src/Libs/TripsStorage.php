@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace UberCrawler\Libs;
 
@@ -17,9 +17,12 @@ class TripsStorage
         // Get current timestamp
         $timeStamp = time();
         // File: /tmp/uber-parsed/1464880984.csv
-        $fullFilePath = implode(DIRECTORY_SEPARATOR,
-                                [App::$APP_SETTINGS['parsed_data_dir'],
-                                time().'.csv', ]);
+        $fullFilePath = implode(
+            DIRECTORY_SEPARATOR,
+            [App::$APP_SETTINGS['parsed_data_dir'],
+            time().'.csv',
+            ]
+        );
 
         Helper::makedirs(App::$APP_SETTINGS['parsed_data_dir']);
 

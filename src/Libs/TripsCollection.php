@@ -87,7 +87,7 @@ class TripsCollection implements \Iterator
     }
 
     /**
-     * Returns the size of the _trips 
+     * Returns the size of the _trips
      * Array.
      *
      * @codeCoverageIgnore

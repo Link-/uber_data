@@ -83,9 +83,11 @@ class TripDetailsTest extends TestCase
     /**
      * @dataProvider tripDetailsProvider
      */
-    public function testtoArray($dataArray,
-                              $expectedArray)
-    {
+    public function testtoArray(
+        $dataArray,
+        $expectedArray
+    ) {
+    
         $this->_tripDetails->setTripDetails($dataArray);
         $tripArray = $this->_tripDetails->toArray();
         $this->assertInternalType('array', $tripArray);

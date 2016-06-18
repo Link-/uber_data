@@ -1,8 +1,9 @@
-<?php 
+<?php
 
 namespace UberCrawler\Config;
 
-class App {
+class App 
+{
   
     public static $APP_SETTINGS = [
 
@@ -32,9 +33,7 @@ class App {
         'cookies_storage_file' => '/tmp/uber-cookies',
 
         /**
-         * Storage Location of Crawled Pages
-         * Data
-         * -- 
+         * Storage Location of Crawled Pages Data
          * If the folder doesn't exist it will
          * be created. It's best to store this information
          * in your /tmp folder as it will be removed when
@@ -55,9 +54,9 @@ class App {
         /**
          * User Agent
          */
-        'user_agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) '. 
-                      'AppleWebKit/601.5.17 (KHTML, like Gecko) Version/9.1 '.
-                      'Safari/601.5.17',
+        'user_agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) '.
+        'AppleWebKit/601.5.17 (KHTML, like Gecko) Version/9.1 '.
+        'Safari/601.5.17',
 
         /**
          * Curl Request Timeout in seconds
@@ -68,13 +67,11 @@ class App {
 
         /**
          * !! Important !!
-         * 
          * Timezone -- It's very important for the date
-         * handling and if set incorrectly, it might lead 
+         * handling and if set incorrectly, it might lead
          * to wrong information generation
          */
         'timezone' => 'Asia/Beirut'
 
     ];
-
 }
