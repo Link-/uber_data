@@ -5,9 +5,6 @@ namespace UberCrawler\Libs;
 use UberCrawler\Config\App as App;
 use UberCrawler\Libs\Exceptions\GeneralException as GeneralException;
 
-/**
- * 
- */
 class Crawler
 {
     /**
@@ -16,24 +13,28 @@ class Crawler
      * @var [type]
      */
     protected $_curlHandle;
+
     /**
      * [$_csrf_token description].
      *
      * @var string
      */
     protected $_csrf_token = '';
+
     /**
      * Parser Instance.
      *
      * @var [type]
      */
     protected $_parser;
+
     /**
      * [$_uberLoginURL description].
      *
      * @var string
      */
     protected $_uberLoginURL = '';
+
     /**
      * [$_uberTripsURL description].
      *

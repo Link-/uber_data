@@ -8,6 +8,7 @@ use UberCrawler\Libs\TripsCollection as TripsCollection;
 class TripsStorageTest extends TestCase
 {
     protected $_tripCollection;
+    
     protected $_createdFiles = array();
 
     public function setUp()

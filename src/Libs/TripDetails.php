@@ -16,43 +16,41 @@ class TripDetails
      * @var [type]
      */
     protected $_pickupDate;
+
     /**
      * [$_driverName description].
      *
      * @var [type]
      */
     protected $_driverName;
+
     /**
      * [$_fareValue description].
      *
      * @var [type]
      */
     protected $_fareValue;
+
     /**
      * [$_carType description].
      *
      * @var [type]
      */
     protected $_carType;
+
     /**
      * [$_city description].
      *
      * @var [type]
      */
     protected $_city;
+
     /**
      * [$_mapUrl description].
      *
      * @var [type]
      */
     protected $_mapUrl = 'N.A';
-
-    /**
-     * [__construct description].
-     */
-    public function __construct()
-    {
-    }
 
     /**
      * PickupDate takes only 1 date format:

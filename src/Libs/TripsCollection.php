@@ -4,12 +4,13 @@ namespace UberCrawler\Libs;
 
 class TripsCollection implements \Iterator
 {
-      /**
+    /**
      * [$position description].
      *
      * @var int
      */
     private $position = 0;
+
     /**
      * [$_trips description].
      *

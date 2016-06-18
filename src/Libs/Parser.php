@@ -4,9 +4,6 @@ namespace UberCrawler\Libs;
 
 use UberCrawler\Libs\Exceptions\GeneralException as GeneralException;
 
-/**
- * 
- */
 class Parser
 {
     /**
@@ -15,30 +12,35 @@ class Parser
      * @var [type]
      */
     protected $_currentPage;
+
     /**
      * [$_nextPage description].
      *
      * @var [type]
      */
     protected $_nextPage;
+
     /**
      * [$_rawHTMLData description].
      *
      * @var [type]
      */
     protected $_rawHTMLData;
+
     /**
      * [$_DomDocument description].
      *
      * @var [type]
      */
     protected $_DomDocument;
+
     /**
      * [$_DomXPath description].
      *
      * @var [type]
      */
     protected $_DomXPath;
+
     /**
      * [$_tripsCollection description].
      *

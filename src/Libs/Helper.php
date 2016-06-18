@@ -2,9 +2,6 @@
 
 namespace UberCrawler\Libs;
 
-/**
- * 
- */
 class Helper
 {
     /**
