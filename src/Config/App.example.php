@@ -34,7 +34,9 @@ class App {
      * Data
      * -- 
      * If the folder doesn't exist it will
-     * be created
+     * be created. It's best to store this information
+     * in your /tmp folder as it will be removed when
+     * the OS reboots
      */
     'data_storage_dir' => '/tmp/uber-data',
 
@@ -42,7 +44,9 @@ class App {
      * Parsed Data Storage Location
      * --
      * If the folder doesn't exist it will
-     * be created
+     * be created. It's best to store this information
+     * in your /tmp folder as it will be removed when
+     * the OS reboots
      */
     'parsed_data_dir' => '/tmp/uber-parsed',
     
