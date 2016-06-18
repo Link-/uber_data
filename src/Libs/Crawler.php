@@ -155,9 +155,6 @@ class Crawler
 
     /**
      * [execute description].
-     *
-     * @codeCoverageIgnore
-     *
      * @return [type] [description]
      */
     public function execute()
@@ -170,9 +167,7 @@ class Crawler
 
     /**
      * [curlSetOptions description].
-     *
      * @codeCoverageIgnore
-     *
      * @return [type] [description]
      */
     protected function setCurlOptions(
@@ -279,8 +274,10 @@ class Crawler
     }
 
     /**
-     * [grabLoginForm description].
-     *
+     * Makes an HTTP request to the LoginURL, retrieves the HTML
+     * content and calls the getCSRFToken method to parse the content
+     * and retrieve the CSRF token
+     * @codeCoverageIgnore
      * @return [type] [description]
      */
     protected function grabLoginForm()
@@ -303,7 +300,6 @@ class Crawler
                     'FATAL'
                 );
             }
-
             Helper::printOut("CSRF TOKEN: {$this->_csrf_token}");
         } else {
             // Failed to retrieve CSRF Token
@@ -320,11 +316,12 @@ class Crawler
     }
 
     /**
-     * [getCSRFToken description].
+     * Parses the Login Page's HTML content and retrieves the
+     * CSRF token
      *
-     * @param [type] $formData [description]
+     * @param string $formData HTML content of the login page
      *
-     * @return [type] [description]
+     * @return string CSRF Token Value or an empty string
      */
     protected function getCSRFToken($formData)
     {
@@ -348,7 +345,7 @@ class Crawler
 
     /**
      * [getData description].
-     *
+     * @codeCoverageIgnore
      * @return [type] [description]
      */
     protected function getData()
@@ -370,8 +367,9 @@ class Crawler
         // Check if there were any errors in the process
         if (!curl_errno($this->_curlHandle)) {
             Helper::printOut('Retrieved Data');
-            $this->storeIntoFile($postLoginRawData, 1);
-
+            // Store the HTML content into a file
+            // for caching purposes
+            Helper::storeIntoFile($postLoginRawData, 1);
             // Parse the retrieved page
             $this->_parser->parsePage($postLoginRawData);
             // Parsed the next page if it's available
@@ -389,7 +387,7 @@ class Crawler
 
     /**
      * [getNextPagesData description].
-     *
+     * @codeCoverageIgnore
      * @return [type] [description]
      */
     protected function getNextPagesData()
@@ -415,8 +413,9 @@ class Crawler
             // Check if there were any errors in the process
             if (!curl_errno($this->_curlHandle)) {
                 Helper::printOut('Retrieved Data');
-                $this->storeIntoFile($pageRawData, $i);
-
+                // Store the HTML content into a file
+                // for caching purposes
+                Helper::storeIntoFile($pageRawData, $i);
                 // Parse the retrieved page
                 $this->_parser->parsePage($pageRawData);
             } else {
@@ -431,49 +430,6 @@ class Crawler
         }
 
         return $this->_parser->getTripsCollection();
-    }
-
-    /**
-     * Stores the grabbed HTML pages onto the localdisk
-     * for cashing purposes. The stored files are not being
-     * used in this project yet. Might introduce this feature
-     * in future releases.
-     *
-     * @param [type] $data     [description]
-     * @param int    $pageNumb [description]
-     *
-     * @return [type] [description]
-     */
-    protected function storeIntoFile(
-        $data,
-        $pageNumb = 1
-    ) {
-        // Get the appropriate filename
-        $fileName = $this->buildStorageFilePath($pageNumb);
-        // Build the necessary dirs if they
-        // don't exist already
-        Helper::makedirs(App::$APP_SETTINGS['data_storage_dir']);
-        // Store data into a file
-        file_put_contents($fileName, $data);
-    }
-
-    /**
-     * [buildStorageFilePath description].
-     *
-     * @param [type] $pageNumb [description]
-     *
-     * @return [type] [description]
-     */
-    protected function buildStorageFilePath($pageNumb)
-    {
-        // Build the filename
-        $fileName = "data-page_{$pageNumb}.html";
-
-        return implode(
-            DIRECTORY_SEPARATOR,
-            [App::$APP_SETTINGS['data_storage_dir'],
-            $fileName]
-        );
     }
 
     /**

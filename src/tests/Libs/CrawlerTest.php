@@ -116,8 +116,42 @@ class CrawlerTest extends TestCase
         );
     }
 
-    public function testexecute()
+    /**
+     * @dataProvider getCSRFTokenProvider
+     * @covers UberCrawler\Libs\Crawler::getCSRFToken
+     */
+    public function testgetCSRFToken(
+        $html,
+        $expected
+    ) {
+        $method = self::getMethod('getCSRFToken');
+        $output = $method->invokeArgs($this->_crawler, array($html));
+        $this->assertEquals($expected, $output);
+    }
+
+
+    public function getCSRFTokenProvider()
     {
+        // Read the HTML from a sample login file
+        $file = __DIR__
+        .DIRECTORY_SEPARATOR.
+        '../_sample_data/login_sample.html';
+
+        $goodHTML = file_get_contents($file);
+
+        $corruptHTML = <<<EOD
+        <html><body><div>Test</div></body></html>
+EOD;
+
+        return [
+          [$goodHTML, '1466290348-01-lGJBTbT9pmNL-'.
+            'GLSMXXFpMEzb8IY5u7B9AEnCjBslFM='],
+          [$corruptHTML, ''],
+        ];
+    }
+
+    public function teststoreIntoFile() {
+        
     }
 
     /**
