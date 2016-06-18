@@ -15,10 +15,10 @@ Uber web interface crawler / scraper - Convert the trips table into a CSV file
 
 #### Minimum Requirements
 
-    ```
-    - PHP (5.6+)
-    - XDebug is a requirement for running the unit tests
-    ```
+  ```
+  - PHP (5.6+)
+  - XDebug is a requirement for running the unit tests
+  ```
 
 Installation is very basic, just:
 
@@ -59,11 +59,11 @@ This repository ships with a handy command-line interface companion named `uberc
 
 #### Manually
 
-    ```sh
-    cd src/Config
-    mv App.example.php App.php
-    nano App.php
-    ```
+  ```sh
+  cd src/Config
+  mv App.example.php App.php
+  nano App.php
+  ```
 
 1. Add your Uber Username and Password into the `App.php` file:
 
@@ -87,21 +87,21 @@ This repository ships with a handy command-line interface companion named `uberc
 
 Run the script as such:
 
-    ```sh
-    php src/index.php
-    ```
+  ```sh
+  php src/index.php
+  ```
 
 ### Sample Output
 
-    ```text
-    2016-06-03,Logan,$7.73,uberX,Los Angeles,N.A
-    2016-06-03,John,$14.45,uberX,Los Angeles,N.A
-    2016-06-02,Mark,$4.70,uberX,Los Angeles,N.A
-    2016-06-02,Logan,Canceled,uberX,Los Angeles,N.A
-    2016-06-02,Morgan,$13.23,uberX,Los Angeles,N.A
-    2016-06-01,Sleimann,$4.79,uberX,Los Angeles,N.A
-    2016-06-01,George,$14.36,uberX,Los Angeles,N.A
-    ```
+  ```text
+  2016-06-03,Logan,$7.73,uberX,Los Angeles,N.A
+  2016-06-03,John,$14.45,uberX,Los Angeles,N.A
+  2016-06-02,Mark,$4.70,uberX,Los Angeles,N.A
+  2016-06-02,Logan,Canceled,uberX,Los Angeles,N.A
+  2016-06-02,Morgan,$13.23,uberX,Los Angeles,N.A
+  2016-06-01,Sleimann,$4.79,uberX,Los Angeles,N.A
+  2016-06-01,George,$14.36,uberX,Los Angeles,N.A
+  ```
 
 ## Jupyter Notebook
 
@@ -109,13 +109,13 @@ Run the script as such:
 
 #### Minimum Requirements
 
-    ```
-    python3 (3.4.3)
-    pip3 (1.5.4)
-    jupyter (4.1.0)
-    pandas (0.18.1)
-    matplotlib (1.5.1)
-    ```
+  ```
+  python3 (3.4.3)
+  pip3 (1.5.4)
+  jupyter (4.1.0)
+  pandas (0.18.1)
+  matplotlib (1.5.1)
+  ```
 
 Review the installation requirements / steps per depedency by following the reference links provided below.        
 
