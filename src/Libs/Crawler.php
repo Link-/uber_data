@@ -43,19 +43,36 @@ class Crawler
     protected $_uberTripsURL = '';
 
     /**
-     * [__construct description].
+     * [$_uberUsername description]
+     *
+     * @var string
+     */
+    protected $_uberUsername = '';
+
+    /**
+     * [$_uberPassword description]
+     *
+     * @var string
+     */
+    protected $_uberPassword = '';
+
+    /**
+     * @codeCoverageIgnore
      */
     public function __construct()
     {
         $this->_curlHandle = curl_init();
         $this->_parser = new Parser();
+        // Set the credentials
+        $this->setUsername(App::$APP_SETTINGS['username']);
+        $this->setPassword(App::$APP_SETTINGS['password']);
         // Set the URLs
         $this->setLoginURL(App::$APP_SETTINGS['uber_login_url']);
         $this->setTripsURL(App::$APP_SETTINGS['uber_trips_url']);
     }
 
     /**
-     * [__destruct description].
+     * @codeCoverageIgnore
      */
     public function __destruct()
     {
@@ -63,9 +80,49 @@ class Crawler
     }
 
     /**
-     * [getLoginURL description].
+     * Getter method for the _csrf_token attribute
      *
-     * @return [type] [description]
+     * @return string Value of the CSRF token
+     */
+    public function getCSRFToken()
+    {
+        return $this->_csrf_token;
+    }
+
+    /**
+     * Setter method for the _csrf_token attribute
+     *
+     * @param string $token Developer defined token
+     */
+    public function setCSRFToken($token)
+    {
+        if (empty($token)) {
+            throw new GeneralException(
+                'CSRF Token cannot be empty!',
+                'FATAL'
+            );
+        }
+
+        $this->_csrf_token = $token;
+    }
+
+    /**
+     * Getter method for the Parser instance and attribute
+     * of the Crawler
+     *
+     * @codeCoverageIgnore
+     *
+     * @return Parser Parser Instance
+     */
+    public function getParser()
+    {
+        return $this->_parser;
+    }
+
+    /**
+     * Getter method for the Uber Login URL
+     * 
+     * @return string Login URL
      */
     public function getLoginURL()
     {
@@ -73,9 +130,11 @@ class Crawler
     }
 
     /**
-     * [setLoginURL description].
+     * Setter method for the Uber Login URL
+     * this method identifies empty args and invalid URLs
+     * provided as arguments
      *
-     * @param [type] $url [description]
+     * @param string $url Uber's Login URL
      */
     public function setLoginURL($url)
     {
@@ -98,9 +157,36 @@ class Crawler
     }
 
     /**
-     * [getTripsURL description].
+     * Setter method for the Uber Account attribute
      *
-     * @return [type] [description]
+     * @codeCoverageIgnore
+     *
+     * @param string $username User's Uber account username
+     */
+    public function setUsername($username)
+    {
+        $this->_uberUsername = $username;
+    }
+
+    /**
+     * Setter method for the Uber Password attribute
+     *
+     * @codeCoverageIgnore
+     *
+     * @param string $password Plain text user's Uber account password
+     */
+    public function setPassword($password)
+    {
+        $this->_uberPassword = $password;
+    }
+
+    /**
+     * Getter method for the Uber Trips URL attribute
+     * This is the first URL after the Login page
+     *
+     * @codeCoverageIgnore
+     *
+     * @return string Trips URL
      */
     public function getTripsURL()
     {
@@ -108,9 +194,9 @@ class Crawler
     }
 
     /**
-     * [setTripsURL description].
-     *
-     * @param [type] $url [description]
+     * Setter method for the Uber Trips URL attribute
+     * 
+     * @param string $url Uber Trips URL
      */
     public function setTripsURL($url)
     {
@@ -133,20 +219,9 @@ class Crawler
     }
 
     /**
-     * [getParser description].
+     * Getter method for the TripsCollection instance
      *
-     * @codeCoverageIgnore
-     *
-     * @return [type] [description]
-     */
-    public function getParser()
-    {
-        return $this->_parser;
-    }
-
-    /**
-     * [getTripsCollection description].
-     * @return [type] [description]
+     * @return TripsCollection Contains all the parsed TripDetails
      */
     public function getTripsCollection()
     {
@@ -154,7 +229,13 @@ class Crawler
     }
 
     /**
-     * [execute description].
+     * Main method that kickstars the entire crawling and
+     * parsing process. First the Login Form is retrieved, the CSRF token
+     * is parsed, then the crawler executes the authentication and starts
+     * scrapping the data
+     *
+     * @codeCoverageIgnore
+     *
      * @return [type] [description]
      */
     public function execute()
@@ -167,8 +248,10 @@ class Crawler
 
     /**
      * [curlSetOptions description].
+     *
      * @codeCoverageIgnore
-     * @return [type] [description]
+     *
+     * @return void
      */
     protected function setCurlOptions(
         $post = false,
@@ -275,9 +358,11 @@ class Crawler
 
     /**
      * Makes an HTTP request to the LoginURL, retrieves the HTML
-     * content and calls the getCSRFToken method to parse the content
+     * content and calls the parseCSRFToken method to parse the content
      * and retrieve the CSRF token
+     *
      * @codeCoverageIgnore
+     *
      * @return [type] [description]
      */
     protected function grabLoginForm()
@@ -291,7 +376,7 @@ class Crawler
             // Printout informative messages
             Helper::printOut('Retrieving CSRF Token');
             // Retrieve the csrf token
-            $this->_csrf_token = $this->getCSRFToken($rawFormData);
+            $this->_csrf_token = $this->parseCSRFToken($rawFormData);
             // Check that we have successfully retrieved the
             // token
             if (empty($this->_csrf_token)) {
@@ -323,7 +408,7 @@ class Crawler
      *
      * @return string CSRF Token Value or an empty string
      */
-    protected function getCSRFToken($formData)
+    protected function parseCSRFToken($formData)
     {
         $dom = new \DOMDocument();
         $dom->loadHTML($formData);
@@ -345,7 +430,9 @@ class Crawler
 
     /**
      * [getData description].
+     *
      * @codeCoverageIgnore
+     *
      * @return [type] [description]
      */
     protected function getData()
@@ -386,9 +473,14 @@ class Crawler
     }
 
     /**
-     * [getNextPagesData description].
+     * Parses the HTML content of the page, identifies the pagination
+     * and checks whether there exists further pages to parse or not.
+     * Once complete, the entire trips collection parsed from the data tables
+     * is returned in a single TripsCollection instance
+     *
      * @codeCoverageIgnore
-     * @return [type] [description]
+     *
+     * @return TripsCollection Returns the entire TripsCollection
      */
     protected function getNextPagesData()
     {
@@ -433,15 +525,16 @@ class Crawler
     }
 
     /**
-     * [getLoginString description].
-     * @return [type] [description]
+     * Generate URL-encoded query string
+     *
+     * @return string URL-encoded string
      */
     protected function getLoginString()
     {
         return http_build_query(['_csrf_token' => $this->_csrf_token,
                                 'access_token' => '',
-                                'email' => App::$APP_SETTINGS['username'],
-                                'password' => App::$APP_SETTINGS['password'],
+                                'email' => $this->_uberUsername,
+                                'password' => $this->_uberPassword,
                                 ]);
     }
 }

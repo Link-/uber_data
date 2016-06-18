@@ -1,5 +1,7 @@
 <?php
 
+namespace UberCrawler\Tests;
+
 use PHPUnit\Framework\TestCase;
 use UberCrawler\Libs\Parser as Parser;
 use UberCrawler\Libs\Crawler as Crawler;
@@ -18,6 +20,26 @@ class CrawlerTest extends TestCase
     public function tearDown()
     {
         $this->_crawler = null;
+    }
+
+    /**
+     * covers UberCrawler\Libs\Crawler::setCSRFToken
+     */
+    public function testsetCSRFTokenFailure()
+    {
+        $this->expectException(GeneralException::class);
+        $this->_crawler->setCSRFToken('');
+    }
+
+    /**
+     * covers UberCrawler\Libs\Crawler::getCSRFToken
+     * covers UberCrawler\Libs\Crawler::setCSRFToken
+     */
+    public function testCSRFTokenSuccess()
+    {
+        $input = 'testCSRF';
+        $this->_crawler->setCSRFToken($input);
+        $this->assertEquals($input, $this->_crawler->getCSRFToken('testCSRF'));
     }
 
     public function testgetLoginURL()
@@ -117,20 +139,19 @@ class CrawlerTest extends TestCase
     }
 
     /**
-     * @dataProvider getCSRFTokenProvider
-     * @covers UberCrawler\Libs\Crawler::getCSRFToken
+     * @dataProvider parseCSRFTokenProvider
+     * @covers UberCrawler\Libs\Crawler::parseCSRFToken
      */
-    public function testgetCSRFToken(
+    public function testparseCSRFToken(
         $html,
         $expected
     ) {
-        $method = self::getMethod('getCSRFToken');
+        $method = self::getMethod('parseCSRFToken');
         $output = $method->invokeArgs($this->_crawler, array($html));
         $this->assertEquals($expected, $output);
     }
 
-
-    public function getCSRFTokenProvider()
+    public function parseCSRFTokenProvider()
     {
         // Read the HTML from a sample login file
         $file = __DIR__
@@ -145,13 +166,28 @@ EOD;
 
         return [
           [$goodHTML, '1466290348-01-lGJBTbT9pmNL-'.
-            'GLSMXXFpMEzb8IY5u7B9AEnCjBslFM='],
+            'GLSMXXFpMEzb8IY5u7B9AEnCjBslFM=', ],
           [$corruptHTML, ''],
         ];
     }
 
-    public function teststoreIntoFile() {
+    /**
+     * @covers UberCrawler\Libs\Crawler::getLoginString
+     */
+    public function testgetLoginString()
+    {
+        // Set the necessary info
+        $this->_crawler->setUsername('testUser');
+        $this->_crawler->setPassword('testPassword');
+        $this->_crawler->setCSRFToken('test-token');
         
+        $method = self::getMethod('getLoginString');
+        $output = $method->invokeArgs($this->_crawler, array());
+
+        $this->assertEquals(
+            '_csrf_token=test-token&access_token=&email=testUser&password=testPassword',
+            $output
+        );
     }
 
     /**
@@ -163,7 +199,7 @@ EOD;
      */
     protected static function getMethod($name)
     {
-        $class = new ReflectionClass('UberCrawler\Libs\Crawler');
+        $class = new \ReflectionClass('UberCrawler\Libs\Crawler');
         $method = $class->getMethod($name);
         $method->setAccessible(true);
 

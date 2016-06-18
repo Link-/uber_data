@@ -11,7 +11,7 @@
          verbose="true">
     <testsuites>
         <testsuite name="Uber Data Test Suite">
-            <directory>src/tests/</directory>
+            <directory>src/Tests/</directory>
         </testsuite>
     </testsuites>
 
