@@ -1,44 +1,41 @@
-<?php namespace UberCrawler\Libs\Exceptions;
+<?php
 
-class GeneralException extends \Exception {
+namespace UberCrawler\Libs\Exceptions;
 
-  /**
-   * [$_type description]
-   *
-   * @var string
-   */
-  private $_type = '';
+class GeneralException extends \Exception
+{
+    /**
+     * [$_type description].
+     *
+     * @var string
+     */
+    private $_type = '';
 
-
-  /**
-   * [__construct description]
-   *
-   * @param string          $message  [description]
-   * @param string          $type     [description]
-   * @param integer         $code     [description]
-   * @param \Exception|null $previous [description]
-   */
-  public function __construct($message = '',
+    /**
+     * [__construct description].
+     *
+     * @param string          $message  [description]
+     * @param string          $type     [description]
+     * @param int             $code     [description]
+     * @param \Exception|null $previous [description]
+     */
+    public function __construct($message = '',
                               $type = 'FATAL',
                               $code = 0,
-                              \Exception $previous = NULL) {
+                              \Exception $previous = null)
+    {
+        parent::__construct($message, $code, $previous);
+        // Take an exception type
+        $this->_type = $type;
+    }
 
-    parent::__construct($message, $code, $previous);
-    // Take an exception type
-    $this->_type = $type;
-
-  }
-
-
-  /**
-   * [__toString description]
-   * 
-   * @return string [description]
-   */
-  public function __toString() {
-    
-    return __CLASS__ . ": [{$this->_type}]::: {$this->message}\n";
-
-  }
-
+    /**
+     * [__toString description].
+     * 
+     * @return string [description]
+     */
+    public function __toString()
+    {
+        return __CLASS__.": [{$this->_type}]::: {$this->message}\n";
+    }
 }

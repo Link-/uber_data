@@ -42,7 +42,7 @@ This repository ships with a handy command-line interface companion named `uberc
 1. Add `./bin` to your path with
 
     ```sh
-    export PATH="$PATH:./bin"
+    export PATH="$PATH:<project path>/bin"
     ```
 
 2. Configure (this has to be done only once)
