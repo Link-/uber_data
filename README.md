@@ -31,7 +31,7 @@ Installation is very basic, just:
 2. Install dependencies and build the `autoload` file:
 
     ```sh
-    $: composer install
+    composer install
     ```
 
 3. Build your `App.php` configuration file:
@@ -59,11 +59,11 @@ This repository ships with a handy command-line interface companion named `uberc
 
 #### Manually
 
-```sh
-$: cd src/Config
-$: mv App.example.php App.php
-$: nano App.php
-```
+    ```sh
+    cd src/Config
+    mv App.example.php App.php
+    nano App.php
+    ```
 
 1. Add your Uber Username and Password into the `App.php` file:
 
@@ -88,7 +88,7 @@ $: nano App.php
 Run the script as such:
 
     ```sh
-    $: php src/index.php
+    php src/index.php
     ```
 
 ### Sample Output
@@ -122,35 +122,35 @@ Review the installation requirements / steps per depedency by following the refe
 1. Install `python3`, you will need a C compiler and the Python headers and finally `pip3`:
 
     ```sh
-    $: sudo apt-get install python3 build-essential python3-dev python3-setuptools python3-pip
+    sudo apt-get install python3 build-essential python3-dev python3-setuptools python3-pip
     ```
 
 2. Verify that python3 and pip3 have been downloaded / installed:
 
     ```sh
-    $: pip3 -V
+    pip3 -V
     pip 1.5.4 from /usr/lib/python3/dist-packages (python 3.4)
         
-    $: python3 -V
+    python3 -V
     Python 3.4.3
     ```
         
 3. Install `Jupyter`
 
     ```sh
-    $: sudo pip3 install jupyter
+    sudo pip3 install jupyter
     ```
         
 4. Install `pandas` -- usually `numpy` gets bundled with `pandas` but just in case, install it separately (link to the installation guide below)
 
     ```sh
-    $: sudo pip3 install pandas
+    sudo pip3 install pandas
     ```
 
 5. Install `matplotlib`
 
     ```sh
-    $: sudo apt-get install python3-matplotlib
+    sudo apt-get install python3-matplotlib
     # Upgrade to v.1.5.1
     ```
 
@@ -169,7 +169,7 @@ Review the installation requirements / steps per depedency by following the refe
 1. Run jupyter notebook:
 
     ```sh
-    $: jupyter notebook
+    jupyter notebook
     ```
 
 2. Open the `Uber-Data_Analysis-0.1.ipynb` found in `uber_data/analysis/`
