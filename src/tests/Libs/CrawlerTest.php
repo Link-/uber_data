@@ -12,17 +12,25 @@ class CrawlerTest extends TestCase
 {
     protected $_crawler;
 
+    /**
+     * [setUp description]
+     */
     public function setUp()
     {
         $this->_crawler = new Crawler();
     }
 
+    /**
+     * [tearDown description]
+     */
     public function tearDown()
     {
         $this->_crawler = null;
     }
 
     /**
+     * Test the setter method with an empty argument
+     *
      * @covers UberCrawler\Libs\Crawler::setCSRFToken
      */
     public function testsetCSRFTokenFailure()
@@ -42,6 +50,9 @@ class CrawlerTest extends TestCase
         $this->assertEquals($input, $this->_crawler->getCSRFToken('testCSRF'));
     }
 
+    /**
+     * [testgetLoginURL description]
+     */
     public function testgetLoginURL()
     {
         $this->assertFalse(empty($this->_crawler->getLoginURL()));
@@ -117,11 +128,17 @@ class CrawlerTest extends TestCase
         ];
     }
 
+    /**
+     * [testgetTripsURL description]
+     */
     public function testgetTripsURL()
     {
         $this->assertFalse(empty($this->_crawler->getTripsURL()));
     }
 
+    /**
+     * [testgetParser description]
+     */
     public function testgetParser()
     {
         $this->assertInstanceOf(
@@ -130,6 +147,9 @@ class CrawlerTest extends TestCase
         );
     }
 
+    /**
+     * [testgetTripsCollection description]
+     */
     public function testgetTripsCollection()
     {
         $this->assertInstanceOf(
@@ -151,6 +171,9 @@ class CrawlerTest extends TestCase
         $this->assertEquals($expected, $output);
     }
 
+    /**
+     * [parseCSRFTokenProvider description]
+     */
     public function parseCSRFTokenProvider()
     {
         // Read the HTML from a sample login file
@@ -191,11 +214,12 @@ EOD;
     }
 
     /**
-     * Using Reflection to test protected methods.
+     * Using Reflection to test protected methods. Change the accessibility
+     * of the method to facilitate the testing
      *
-     * @param [type] $name [description]
+     * @param string $name Method name
      *
-     * @return [type] [description]
+     * @return array Array of ReflectionMethod objects
      */
     protected static function getMethod($name)
     {

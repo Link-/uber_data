@@ -3,6 +3,7 @@
 namespace UberCrawler\Libs;
 
 use UberCrawler\Config\App as App;
+use UberCrawler\Libs\Exceptions\GeneralException as GeneralException;
 
 class Helper
 {
@@ -38,22 +39,41 @@ class Helper
      * used in this project yet. Might introduce this feature
      * in future releases.
      *
-     * @param [type] $data     [description]
+     * @param string $data     [description]
      * @param int    $pageNumb [description]
      *
-     * @return [type] [description]
+     * @return array Status object with 'success' and 'fileName'
      */
     public static function storeIntoFile(
         $data,
         $pageNumb = 1
     ) {
+        if (!is_integer($pageNumb)) {
+            throw new GeneralException(
+                'Page Number has to be a positive integer.',
+                'FATAL'
+            );
+        }
         // Get the appropriate filename
         $fileName = self::buildStorageFilePath($pageNumb);
         // Build the necessary dirs if they
         // don't exist already
         Helper::makedirs(App::$APP_SETTINGS['data_storage_dir']);
         // Store data into a file
-        return file_put_contents($fileName, $data);
+        if (!file_put_contents($fileName, $data)) {
+            // Insufficient access possibly
+            Helper::printOut("Unable to write content into: {$fileName}");
+            // Failed to write content to file
+            return [
+                'success' => false,
+                'fileName' => $fileName
+            ];
+        }
+        // Writing to file is done successfully
+        return [
+            'success' => true,
+            'fileName' => $fileName
+        ];
     }
 
     /**
