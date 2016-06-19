@@ -1,5 +1,7 @@
 <?php
 
+namespace UberCrawler\Tests\Libs\Exceptions;
+
 use PHPUnit\Framework\TestCase;
 use UberCrawler\Libs\Exceptions\GeneralException as GeneralException;
 

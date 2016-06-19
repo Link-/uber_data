@@ -1,5 +1,6 @@
 <?php
 
+namespace UberCrawler\Tests\Libs;
 
 use PHPUnit\Framework\TestCase;
 use UberCrawler\Libs\TripDetails as TripDetails;
@@ -46,7 +47,7 @@ class TripsCollectionTest extends TestCase
 
     public function testAddTripException()
     {
-        $this->expectException(PHPUnit_Framework_Error::class);
+        $this->expectException(\PHPUnit_Framework_Error::class);
         $this->_tripsCollection->addTrip('');
     }
 }

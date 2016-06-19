@@ -1,5 +1,7 @@
 <?php
 
+namespace UberCrawler\Tests\Libs;
+
 use PHPUnit\Framework\TestCase;
 use UberCrawler\Libs\Parser as Parser;
 use UberCrawler\Libs\TripsCollection as TripsCollection;

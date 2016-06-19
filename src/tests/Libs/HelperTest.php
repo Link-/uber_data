@@ -1,5 +1,7 @@
 <?php
 
+namespace UberCrawler\Tests\Libs;
+
 use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\TestCase;
 use UberCrawler\Libs\Helper as Helper;

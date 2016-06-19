@@ -1,6 +1,6 @@
 <?php
 
-namespace UberCrawler\Tests;
+namespace UberCrawler\Tests\Libs;
 
 use PHPUnit\Framework\TestCase;
 use UberCrawler\Libs\Parser as Parser;
