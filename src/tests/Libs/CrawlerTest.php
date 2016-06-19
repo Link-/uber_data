@@ -23,7 +23,7 @@ class CrawlerTest extends TestCase
     }
 
     /**
-     * covers UberCrawler\Libs\Crawler::setCSRFToken
+     * @covers UberCrawler\Libs\Crawler::setCSRFToken
      */
     public function testsetCSRFTokenFailure()
     {
@@ -32,8 +32,8 @@ class CrawlerTest extends TestCase
     }
 
     /**
-     * covers UberCrawler\Libs\Crawler::getCSRFToken
-     * covers UberCrawler\Libs\Crawler::setCSRFToken
+     * @covers UberCrawler\Libs\Crawler::getCSRFToken
+     * @covers UberCrawler\Libs\Crawler::setCSRFToken
      */
     public function testCSRFTokenSuccess()
     {

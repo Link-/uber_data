@@ -25,7 +25,6 @@ class TripDetailsTest extends TestCase
      */
     public function testsetPickupDate($dateString)
     {
-
         // Test Exception
         $this->expectException(GeneralException::class);
         $this->_tripDetails->setPickupDate($dateString);
@@ -67,6 +66,15 @@ class TripDetailsTest extends TestCase
     {
         $this->_tripDetails->setFareValue('');
         $this->assertEquals($this->_tripDetails->getFareValue(), 'Free');
+    }
+
+    public function testsetTripDetails()
+    {
+        $this->expectException(GeneralException::class);
+        // Empty array
+        $this->_tripDetails->setTripDetails(array());
+        // or a number of items less < 5
+        $this->_tripDetails->setTripDetails(array(1,2,3));
     }
 
     public function testgetTripObjectArray()
