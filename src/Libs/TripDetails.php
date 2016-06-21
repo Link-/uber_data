@@ -5,52 +5,58 @@ namespace UberCrawler\Libs;
 use UberCrawler\Config\App as App;
 use UberCrawler\Libs\Exceptions\GeneralException as GeneralException;
 
-/**
- *
- */
 class TripDetails
 {
     /**
      * [$_pickupDate description].
      *
-     * @var [type]
+     * @var DateTime
      */
     protected $_pickupDate;
 
     /**
      * [$_driverName description].
      *
-     * @var [type]
+     * @var string
      */
     protected $_driverName;
 
     /**
      * [$_fareValue description].
      *
-     * @var [type]
+     * @var string
      */
     protected $_fareValue;
 
     /**
      * [$_carType description].
      *
-     * @var [type]
+     * @var string
      */
     protected $_carType;
 
     /**
      * [$_city description].
      *
-     * @var [type]
+     * @var string
      */
     protected $_city;
 
     /**
      * [$_mapUrl description].
      *
-     * @var [type]
+     * @var string
      */
     protected $_mapUrl = 'N.A';
+
+    /**
+     * Each trip has a unit ID this can be used
+     * to retrieve further trip information than
+     * is available in the rider Dashboard
+     *
+     * @var string
+     */
+    protected $_tripID = '';
 
     /**
      * PickupDate takes only 1 date format:

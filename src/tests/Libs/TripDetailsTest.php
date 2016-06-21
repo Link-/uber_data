@@ -48,6 +48,9 @@ class TripDetailsTest extends TestCase
         ];
     }
 
+    /**
+     * [testEmptySetterExceptions description]
+     */
     public function testEmptySetterExceptions()
     {
         $this->expectException(GeneralException::class);
@@ -62,12 +65,18 @@ class TripDetailsTest extends TestCase
         $this->_tripDetails->setTripDetails(['1', '2']);
     }
 
+    /**
+     * [testsetFareValue description]
+     */
     public function testsetFareValue()
     {
         $this->_tripDetails->setFareValue('');
         $this->assertEquals($this->_tripDetails->getFareValue(), 'Free');
     }
 
+    /**
+     * [testsetTripDetails description]
+     */
     public function testsetTripDetails()
     {
         $this->expectException(GeneralException::class);
@@ -77,6 +86,9 @@ class TripDetailsTest extends TestCase
         $this->_tripDetails->setTripDetails(array(1,2,3));
     }
 
+    /**
+     * [testgetTripObjectArray description]
+     */
     public function testgetTripObjectArray()
     {
         $tripObjArray = $this->_tripDetails->getTripObjectArray();
@@ -106,6 +118,9 @@ class TripDetailsTest extends TestCase
         }
     }
 
+    /**
+     * [tripDetailsProvider description]
+     */
     public function tripDetailsProvider()
     {
 
