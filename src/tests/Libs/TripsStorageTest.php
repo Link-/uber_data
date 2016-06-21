@@ -34,7 +34,24 @@ class TripsStorageTest extends TestCase
     {
         // Add TripDetails to the TripsCollection
         $trip = new TripDetails();
-        $trip->setTripDetails($dataArray);
+        
+        // Insert trip data
+        $trip->setPickupDate($dataArray[0]);
+        $trip->setDriverName($dataArray[1]);
+        $trip->setFareValue($dataArray[2]);
+        $trip->setCarType($dataArray[3]);
+        $trip->setCity($dataArray[4]);
+        $trip->setTripId($dataArray[5]);
+
+        $trip->getTripRoute()
+            ->setPickupStreetAddress($dataArray[6]);
+        $trip->getTripRoute()
+            ->setOriginPickupDateTime($dataArray[7]);
+        $trip->getTripRoute()
+            ->setDropoffStreetAddress($dataArray[8]);
+        $trip->getTripRoute()
+            ->setDestDropoffDateTime($dataArray[9]);
+
         $this->_tripCollection->addTrip($trip);
         // Call TripCollectiontoCSV()
         $createdFile = TripsStorage::TripCollectiontoCSV($this->_tripCollection);
@@ -53,8 +70,10 @@ class TripsStorageTest extends TestCase
         // to mimic the UI of Uber where the first
         // column in the data table is an empty arrow
         return [
-            [['', '03/12/16', 'John', '$10.23', 'UberZ', 'Beirut']],
-            [['', '1/1/16', 'John Smith', '$10.23', 'UberZ Platon', 'Moscow Snow']],
+            [
+                ['03/12/16', 'John', '$10.23', 'UberZ', 'Beirut', 'trip_id_123', 'Street Pickup 1', '5:30 PM', 'Street Dropoff 1', '6:03 PM'],
+                ['2016-03-12', 'John', '$10.23', 'UberZ', 'Beirut', 'trip_id_123', 'Street Pickup 1', '2016-03-12 17:30', 'Street Dropoff 1', '2016-03-12 18:03']
+            ]
         ];
     }
 }

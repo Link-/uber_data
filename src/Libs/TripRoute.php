@@ -8,6 +8,13 @@ use UberCrawler\Libs\Exceptions\GeneralException as GeneralException;
 class TripRoute
 {
     /**
+     * [$_pickupDate description]
+     *
+     * @var [type]
+     */
+    protected $_pickupDate;
+
+    /**
      * Main Trip pickup Date -- Same value as what's available
      * in TripDetails. It is passed into this object
      * to create a comprehensive Pickup / Drop-off DateTime object
@@ -41,22 +48,30 @@ class TripRoute
      * TripRoute contructor
      *
      * @param \DateTime $pickupDate  Pickup Date
-     * @param string    $pickupTime  Pickup Time (string)
-     * @param string    $dropoffTime Dropoff Time (string)
-     * @param string    $pickupSA    Pickup Street Address
-     * @param string    $dropoffSA   Dropoff Street Address
      */
-    public function __construct(
-        \DateTime $pickupDate,
-        $pickupTime = '',
-        $dropoffTime = '',
-        $pickupSA = '',
-        $dropoffSA = ''
-    ) {
-        $this->setOriginPickupDateTime($pickupTime, $pickupDate);
-        $this->setDestDropoffDateTime($pickupTime, $pickupDate);
-        $this->setPickupStreetAddress($pickupSA);
-        $this->setDropoffStreetAddress($dropoffSA);
+    public function __construct(\DateTime $pickupDate = null)
+    {
+        $this->setPickupDate($pickupDate);
+    }
+
+    /**
+     * [setPickupDate description]
+     *
+     * @param [type] $pickupDate [description]
+     */
+    public function setPickupDate($pickupDate)
+    {
+        $this->_pickupDate = $pickupDate;
+    }
+
+    /**
+     * [getPickupDate description]
+     *
+     * @return [type] [description]
+     */
+    public function getPickupDate()
+    {
+        return $this->_pickupDate;
     }
 
     /**
@@ -82,7 +97,7 @@ class TripRoute
     ) {
         // _pickupDate should not be null
         if (!$pickupDate &&
-            !$this->_origPickupDateTime) {
+            !$this->_pickupDate) {
             throw new GeneralException(
                 'Pickup Date has to be passed',
                 'FATAL'
@@ -92,6 +107,8 @@ class TripRoute
         // set _origPickupDateTime to it
         if ($pickupDate) {
             $this->_origPickupDateTime = $pickupDate;
+        } else {
+            $this->_origPickupDateTime = clone $this->_pickupDate;
         }
         // Do nothing else if timeString is not set
         if (empty($timeString)) {
@@ -99,11 +116,15 @@ class TripRoute
         }
         // Get the hours and minutes
         $hoursMinutes = $this->getHoursMinutesFromString($timeString);
-        // Update the pickupDate
-        $this->_origPickupDateTime->setTime(
-            $hoursMinutes['hours'],
-            $hoursMinutes['minutes']
-        );
+        // Sometimes the pickup time is unkown, we have to leave the time to
+        // default in this case
+        if ($hoursMinutes) {
+            // Update the pickupDate
+            $this->_origPickupDateTime->setTime(
+                $hoursMinutes['hours'],
+                $hoursMinutes['minutes']
+            );
+        }
     }
 
     /**
@@ -126,8 +147,9 @@ class TripRoute
         $timeString = '',
         $dropoffDate = null
     ) {
+        // Set the default timezone
         if (!$dropoffDate &&
-            !$this->_destDropoffDateTime) {
+            !$this->_pickupDate) {
             throw new GeneralException(
                 'Dropoff Date has to be passed',
                 'FATAL'
@@ -137,6 +159,8 @@ class TripRoute
         // set _destDropoffDatetime to it
         if ($dropoffDate) {
             $this->_destDropoffDateTime = $dropoffDate;
+        } else {
+            $this->_destDropoffDateTime = clone $this->_pickupDate;
         }
         // Do nothing else if timeString is not set
         if (empty($timeString)) {
@@ -144,11 +168,15 @@ class TripRoute
         }
         // Get the hours and minutes
         $hoursMinutes = $this->getHoursMinutesFromString($timeString);
-        // Update the pickupDate
-        $this->_destDropoffDateTime->setTime(
-            $hoursMinutes['hours'],
-            $hoursMinutes['minutes']
-        );
+        // Sometimes the dropoff time is unkown, we have to leave the time to
+        // default in this case
+        if ($hoursMinutes) {
+            // Update the pickupDate
+            $this->_destDropoffDateTime->setTime(
+                $hoursMinutes['hours'],
+                $hoursMinutes['minutes']
+            );
+        }
     }
 
     /**
@@ -165,10 +193,7 @@ class TripRoute
         $timestamp = strtotime($timeString);
         // Handle errors
         if (!$timestamp) {
-            throw new GeneralException(
-                'Time format provided is invalid',
-                'FATAL'
-            );
+            return false;
         }
         // Get the hours and minutes
         $hours = date('G', $timestamp);

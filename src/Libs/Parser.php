@@ -2,6 +2,7 @@
 
 namespace UberCrawler\Libs;
 
+use UberCrawler\Config\App as App;
 use UberCrawler\Libs\Exceptions\GeneralException as GeneralException;
 
 class Parser
@@ -202,35 +203,132 @@ class Parser
             );
         }
 
-        // Get the elements with the class name 'trip-expand__origin'
-        // the trip details are containing inside those <td> elements
-        $nodes = $this->_DomXPath->query("//*[contains(concat(' ',".
-                                         " normalize-space(@class), ' '), '".
-                                         " trip-expand__origin ')]");
+        // Verify that the data table exists
+        $dataTable = $this->_DomXPath->query('//*[@id="trips-table"]/tbody');
+        // If data table was not found
+        // return 'true' meaning that the TripsCollection is empty!
+        if ($dataTable->length < 1) {
+            return true;
+        }
 
-        // Parse the elements and get the details
-        // the structure is complicated
-        // review the Uber details page to understand
-        // what's happening here
-        // We're simply assuming that the items in the data table
-        // are always in a specific order and we're using that order
-        // to fill the trip details
-        foreach ($nodes as $node) {
-            $tripD = new TripDetails();
-            $tripA = [];
-            foreach ($node->childNodes as $child) {
-                // Remove unwanted Unicode characters
-                $content = preg_replace(
-                    "/^[\pZ\pC]+|[\pZ\pC]+$/u",
-                    '',
-                    $child->textContent
-                );
-                array_push($tripA, $content);
-            }
+        /**
+         * This is the list of all XPath queries for all the needed elements
+         * in the retrieved HTML
+         * Each trip has 2 <tr> elements in the <table> and each
+         * page contains 20 trips meaning we have 40 <tr> elements
+         * per page
+         * {:TRIP_N:} is used as a placeholder and will be replaced
+         * by the position of the trip in the HTML DomTree
+         * 'F' replaces {:TRIP_N:} with a value 'n'
+         * 'N' replaces {:TRIP_N:} with a value 'n+1'
+         */
+        $xpathMap = [
+                'tripID'
+                => ['//*[@id="trips-table"]/tbody/tr[{:TRIP_N:}]/@data-target', 'F'],
+                'pickupDate'
+                => ['//*[@id="trips-table"]/tbody/tr[{:TRIP_N:}]/td[2]/text()','F'],
+                'driverName'
+                => ['//*[@id="trips-table"]/tbody/tr[{:TRIP_N:}]/td[3]/text()', 'F'],
+                'fareValue'
+                => ['//*[@id="trips-table"]/tbody/tr[{:TRIP_N:}]/td[4]/text()', 'F'],
+                'carType'
+                => ['//*[@id="trips-table"]/tbody/tr[{:TRIP_N:}]/td[5]/text()', 'F'],
+                'city'
+                => ['//*[@id="trips-table"]/tbody/tr[{:TRIP_N:}]/td[6]/text()', 'F'],
+                'pickupTime'
+                => ['//*[@id="trips-table"]/tbody/tr[{:TRIP_N:}]/td/div/div/div/div[2]/div/div[1]/div[3]/p/text()', 'N'],
+                'pickupAddress'
+                => ['//*[@id="trips-table"]/tbody/tr[{:TRIP_N:}]/td/div/div/div/div[2]/div/div[1]/div[3]/h6/text()', 'N'],
+                'dropoffTime'
+                => ['//*[@id="trips-table"]/tbody/tr[{:TRIP_N:}]/td/div/div/div/div[2]/div/div[2]/div[2]/p/text()', 'N'],
+                'dropoffAddress'
+                => ['//*[@id="trips-table"]/tbody/tr[{:TRIP_N:}]/td/div/div/div/div[2]/div/div[2]/div[2]/h6/text()', 'N']
+        ];
+        
+        /**
+         * TODO: This is really bad --
+         * Needs major rework
+         * Also, a note regarding the *2 that you see there, it's needed
+         * because for each trip we are going through 2 <tr> elements instead
+         * of 1 and we're incrementing the loop by 2 each time. Meaning if we
+         * 20 elements per page, we need to loop until 40
+         */
+        for ($tripN = 1; $tripN < App::$APP_SETTINGS['trips_per_page']*2; $tripN += 2) {
+            // Create a new TripDetails Object
+            $trip = new TripDetails();
             // Set the trip details
-            $tripD->setTripDetails($tripA);
-            // Add the trip to the Collection
-            $this->_tripsCollection->addTrip($tripD);
+            foreach ($xpathMap as $key => $element) {
+                // either tripN or tripN + 1
+                $trIndex = ($element[1] == 'F') ? $tripN : $tripN + 1;
+                $xpath = str_replace("{:TRIP_N:}", $trIndex, $element[0]);
+                // Query the DOM
+                $nodeList = $this->_DomXPath->query($xpath);
+                // Get the text
+                if ($nodeList->length > 0) {
+                    // Fill the data in TripDetails
+                    switch ($key) {
+                        case 'tripID':
+                            // This is an attribute so we capture the
+                            // value here
+                            $value = $nodeList[0]->value;
+                            $trip->setTripId($value);
+                            break;
+                        case 'pickupDate':
+                            // This is an element, we capture wholeText
+                            $nodeText = $nodeList[0]->wholeText;
+                            $trip->setPickupDate($nodeText);
+                            break;
+                        case 'driverName':
+                            $nodeText = $nodeList[0]->wholeText;
+                            $trip->setDriverName($nodeText);
+                            break;
+                        case 'fareValue':
+                            $nodeText = $nodeList[0]->wholeText;
+                            // Remove Unicode Characters
+                            $nodeText = preg_replace(
+                                "/^[\pZ\pC]+|[\pZ\pC]+$/u",
+                                '',
+                                $nodeText
+                            );
+                            $trip->setFareValue($nodeText);
+                            break;
+                        case 'carType':
+                            $nodeText = $nodeList[0]->wholeText;
+                            $trip->setCarType($nodeText);
+                            break;
+                        case 'city':
+                            $nodeText = $nodeList[0]->wholeText;
+                            $trip->setCity($nodeText);
+                            break;
+                        case 'pickupTime':
+                            $nodeText = $nodeList[0]->wholeText;
+                            $trip->getTripRoute()->setOriginPickupDateTime(
+                                $nodeText
+                            );
+                            break;
+                        case 'dropoffTime':
+                            $nodeText = $nodeList[0]->wholeText;
+                            $trip->getTripRoute()->setDestDropoffDateTime(
+                                $nodeText
+                            );
+                            break;
+                        case 'pickupAddress':
+                            $nodeText = $nodeList[0]->wholeText;
+                            $trip->getTripRoute()->setPickupStreetAddress(
+                                $nodeText
+                            );
+                            break;
+                        case 'dropoffAddress':
+                            $nodeText = $nodeList[0]->wholeText;
+                            $trip->getTripRoute()->setDropoffStreetAddress(
+                                $nodeText
+                            );
+                            break;
+                    }
+                }
+            }
+            // Add the trip to the TripsCollection
+            $this->_tripsCollection->addTrip($trip);
         }
 
         return $this->_tripsCollection->isEmpty();

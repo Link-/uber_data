@@ -57,7 +57,7 @@ class TripDetails
      *
      * @var string
      */
-    protected $_tripID = '';
+    protected $_tripID = 'N.A';
 
     /**
      * TripRoute instance
@@ -65,6 +65,11 @@ class TripDetails
      * @var TripRoute
      */
     protected $_tripRoute;
+
+    public function __construct()
+    {
+        $this->_tripRoute = new TripRoute();
+    }
 
     /**
      * PickupDate takes only 1 date format:
@@ -104,6 +109,8 @@ class TripDetails
                 'FATAL'
             );
         }
+        // Pass the same pickup date for the TripRoute instance
+        $this->_tripRoute->setPickupDate($this->_pickupDate);
 
         return true;
     }
@@ -225,37 +232,33 @@ class TripDetails
     }
 
     /**
-     * [setTripDetails description].
+     * [setTripId description]
      *
-     * @param [type] $details [description]
+     * @param [type] $tripID [description]
      */
-    public function setTripDetails($details)
+    public function setTripId($tripID)
     {
-        if (empty($details)) {
-            throw new GeneralException(
-                'Trip Details Array has to be defined - it cannot be empty',
-                'FATAL'
-            );
-        }
+        $this->_tripID = $tripID;
+    }
 
-        if (count($details) < 5) {
-            throw new GeneralException(
-                'Trip Details Array cannot be less than 6 items ',
-                'FATAL'
-            );
-        }
+    /**
+     * [getTripId description]
+     *
+     * @return [type] [description]
+     */
+    public function getTripId()
+    {
+        return $this->_tripID;
+    }
 
-        // Skip the first element (which is a visual element)
-        // and start from index 1
-        $this->setPickupDate($details[1]);
-        $this->setDriverName($details[2]);
-        $this->setFareValue(trim($details[3]));
-        $this->setCarType($details[4]);
-        $this->setCity($details[5]);
-
-        // Create a new TripRoute instance
-        // and populate it with scraped information
-        
+    /**
+     * Getter method for the TripRoute instance
+     *
+     * @return TripRoute TripRoute instance
+     */
+    public function getTripRoute()
+    {
+        return $this->_tripRoute;
     }
 
     /**
@@ -272,17 +275,32 @@ class TripDetails
     /**
      * Convert the TripDetails Object into an Array.
      *
-     * @return [type] [description]
+     * TODO: Replace these checks with getter methods that handle
+     * the formatting and edge case values
+     *
+     * @return array [description]
      */
     public function toArray()
     {
+        // Handle scenarios where Date and Time references are not
+        // available
+        $pickupDate = ($this->_pickupDate) ? $this->_pickupDate->format('Y-m-d') : 'N.A';
+        
+        $pickupTime = ($this->_tripRoute->getOriginPickupDateTime()) ? $this->_tripRoute->getOriginPickupDateTime()->format('Y-m-d G:i') : 'N.A';
+
+        $dropoffTime = ($this->_tripRoute->getDestDropoffDateTime()) ? $this->_tripRoute->getDestDropoffDateTime()->format('Y-m-d G:i') : 'N.A';
+
         return [
-            $this->_pickupDate->format('Y-m-d'),
+            $pickupDate,
             $this->_driverName,
             $this->_fareValue,
             $this->_carType,
             $this->_city,
-            $this->_mapUrl,
+            $this->_tripID,
+            $this->_tripRoute->getPickupStreetAddress(),
+            $pickupTime,
+            $this->_tripRoute->getDropoffStreetAddress(),
+            $dropoffTime
         ];
     }
 }

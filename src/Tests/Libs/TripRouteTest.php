@@ -24,13 +24,7 @@ class TripRouteTest extends TestCase
         date_default_timezone_set(App::$APP_SETTINGS['timezone']);
         $pickupDate = \DateTime::createFromFormat('m/d/y', '01/13/16');
         // Setup a triproute with some params
-        $this->_tripRoute = new TripRoute(
-            $pickupDate,
-            '5:07 PM',  // Pickup Time
-            '6:01 PM',  // Dropoff Time
-            'Main Street', // Pickup Street Address
-            'Random Street'    // Dropoff Street Address
-        );
+        $this->_tripRoute = new TripRoute($pickupDate);
     }
 
     public function tearDown()
@@ -43,6 +37,7 @@ class TripRouteTest extends TestCase
      */
     public function testgetOriginPickupDateTime()
     {
+        $this->_tripRoute->setOriginPickupDateTime('05:03 PM');
         $originPickupDT = $this->_tripRoute->getOriginPickupDateTime();
         $this->assertInstanceOf(\DateTime::class, $originPickupDT);
     }
@@ -59,7 +54,7 @@ class TripRouteTest extends TestCase
             case true:
                 // Get the originally set Date
                 $controlDateTime = $this->_tripRoute
-                                        ->getOriginPickupDateTime();
+                                        ->getPickupDate();
                 // Add the time
                 $this->_tripRoute->setOriginPickupDateTime($time);
                 $setDateTime = $this->_tripRoute->getOriginPickupDateTime();
@@ -91,6 +86,7 @@ class TripRouteTest extends TestCase
      */
     public function testgetDestDropoffDateTime()
     {
+        $this->_tripRoute->setDestDropoffDateTime('06:01 PM');
         $dropoffPickupDT = $this->_tripRoute->getDestDropoffDateTime();
         $this->assertInstanceOf(\DateTime::class, $dropoffPickupDT);
     }
@@ -107,7 +103,7 @@ class TripRouteTest extends TestCase
             case true:
                 // Get the originally set Date
                 $controlDateTime = $this->_tripRoute
-                                        ->getDestDropoffDateTime();
+                                        ->getPickupDate();
                 // Add the time
                 $this->_tripRoute->setDestDropoffDateTime($time);
                 $setDateTime = $this->_tripRoute->getDestDropoffDateTime();

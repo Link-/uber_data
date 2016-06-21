@@ -75,47 +75,35 @@ class TripDetailsTest extends TestCase
     }
 
     /**
-     * [testsetTripDetails description]
-     */
-    public function testsetTripDetails()
-    {
-        $this->expectException(GeneralException::class);
-        // Empty array
-        $this->_tripDetails->setTripDetails(array());
-        // or a number of items less < 5
-        $this->_tripDetails->setTripDetails(array(1,2,3));
-    }
-
-    /**
-     * [testgetTripObjectArray description]
-     */
-    public function testgetTripObjectArray()
-    {
-        $tripObjArray = $this->_tripDetails->getTripObjectArray();
-        $this->assertInternalType('array', $tripObjArray);
-        $this->assertArrayHasKey('_pickupDate', $tripObjArray);
-        $this->assertArrayHasKey('_driverName', $tripObjArray);
-        $this->assertArrayHasKey('_fareValue', $tripObjArray);
-        $this->assertArrayHasKey('_carType', $tripObjArray);
-        $this->assertArrayHasKey('_city', $tripObjArray);
-        $this->assertArrayHasKey('_mapUrl', $tripObjArray);
-    }
-
-    /**
      * @dataProvider tripDetailsProvider
      */
     public function testtoArray(
         $dataArray,
         $expectedArray
     ) {
-    
-        $this->_tripDetails->setTripDetails($dataArray);
+        // Insert trip data
+        $this->_tripDetails->setPickupDate($dataArray[0]);
+        $this->_tripDetails->setDriverName($dataArray[1]);
+        $this->_tripDetails->setFareValue($dataArray[2]);
+        $this->_tripDetails->setCarType($dataArray[3]);
+        $this->_tripDetails->setCity($dataArray[4]);
+        $this->_tripDetails->setTripId($dataArray[5]);
+        $this->_tripDetails
+            ->getTripRoute()
+            ->setPickupStreetAddress($dataArray[6]);
+        $this->_tripDetails
+            ->getTripRoute()
+            ->setOriginPickupDateTime($dataArray[7]);
+        $this->_tripDetails
+            ->getTripRoute()
+            ->setDropoffStreetAddress($dataArray[8]);
+        $this->_tripDetails
+            ->getTripRoute()
+            ->setDestDropoffDateTime($dataArray[9]);
+
         $tripArray = $this->_tripDetails->toArray();
         $this->assertInternalType('array', $tripArray);
-
-        for ($i = 0; $i < count($tripArray); ++$i) {
-            $this->assertEquals($expectedArray[$i], $tripArray[$i]);
-        }
+        $this->assertEquals($tripArray, $expectedArray);
     }
 
     /**
@@ -129,13 +117,9 @@ class TripDetailsTest extends TestCase
         // column in the data table is an empty arrow
         return [
             [
-                ['', '03/12/16', 'John', '$10.23', 'UberZ', 'Beirut'],
-                ['2016-03-12', 'John', '$10.23', 'UberZ', 'Beirut', 'N.A'],
-            ],
-            [
-                ['', '1/1/16', 'John Smith', '$10.23', 'UberZ Platon', 'Moscow Snow'],
-                ['2016-01-01', 'John Smith', '$10.23', 'UberZ Platon', 'Moscow Snow', 'N.A'],
-            ],
+                ['03/12/16', 'John', '$10.23', 'UberZ', 'Beirut', 'trip_id_123', 'Street Pickup 1', '5:30 PM', 'Street Dropoff 1', '6:03 PM'],
+                ['2016-03-12', 'John', '$10.23', 'UberZ', 'Beirut', 'trip_id_123', 'Street Pickup 1', '2016-03-12 17:30', 'Street Dropoff 1', '2016-03-12 18:03']
+            ]
         ];
     }
 }
