@@ -3,6 +3,7 @@
 namespace UberCrawler\Libs;
 
 use UberCrawler\Config\App as App;
+use UberCrawler\Libs\TripRoute as TripRoute;
 use UberCrawler\Libs\Exceptions\GeneralException as GeneralException;
 
 class TripDetails
@@ -57,6 +58,13 @@ class TripDetails
      * @var string
      */
     protected $_tripID = '';
+
+    /**
+     * TripRoute instance
+     *
+     * @var TripRoute
+     */
+    protected $_tripRoute;
 
     /**
      * PickupDate takes only 1 date format:
@@ -244,6 +252,10 @@ class TripDetails
         $this->setFareValue(trim($details[3]));
         $this->setCarType($details[4]);
         $this->setCity($details[5]);
+
+        // Create a new TripRoute instance
+        // and populate it with scraped information
+        
     }
 
     /**

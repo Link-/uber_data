@@ -44,7 +44,7 @@ class ParserTest extends TestCase
     public function uberHtmlProvider()
     {
         // Read the HTML from a sample file
-        $file = __DIR__.DIRECTORY_SEPARATOR.'../_sample_data/sample.html';
+        $file = __DIR__.DIRECTORY_SEPARATOR.'../_sample_data/advanced_sample.html';
         $goodHTML = file_get_contents($file);
 
         $corruptHTML = <<<EOD
@@ -84,7 +84,7 @@ EOD;
     public function paginationProvider()
     {
         // Read the HTML from a sample file
-        $file = __DIR__.DIRECTORY_SEPARATOR.'../_sample_data/sample.html';
+        $file = __DIR__.DIRECTORY_SEPARATOR.'../_sample_data/advanced_sample.html';
         $goodHTML = file_get_contents($file);
 
         $corruptHTML = <<<EOD
@@ -98,6 +98,12 @@ EOD;
     }
 
     /**
+     * Test the Data Table Parser
+     * This is an important test and the only way to verify the
+     * correctness is by checking the size of the TripsCollection
+     * instance because if everything goes well, the TripsCollection
+     * will be populated with valid TripDetail instances
+     *
      * @dataProvider dataTableProvider
      */
     public function testparseDataTable(
@@ -119,7 +125,7 @@ EOD;
     {
 
         // Read the HTML from a sample file
-        $file = __DIR__.DIRECTORY_SEPARATOR.'../_sample_data/sample.html';
+        $file = __DIR__.DIRECTORY_SEPARATOR.'../_sample_data/advanced_sample.html';
         $goodHTML = file_get_contents($file);
 
         $corruptHTML = <<<EOD
