@@ -112,7 +112,7 @@ class TripRoute
         }
         // Do nothing else if timeString is not set
         if (empty($timeString)) {
-            return;
+            return false;
         }
         // Get the hours and minutes
         $hoursMinutes = $this->getHoursMinutesFromString($timeString);
@@ -124,7 +124,9 @@ class TripRoute
                 $hoursMinutes['hours'],
                 $hoursMinutes['minutes']
             );
+            return true;
         }
+        return false;
     }
 
     /**
@@ -164,7 +166,7 @@ class TripRoute
         }
         // Do nothing else if timeString is not set
         if (empty($timeString)) {
-            return;
+            return false;
         }
         // Get the hours and minutes
         $hoursMinutes = $this->getHoursMinutesFromString($timeString);
@@ -176,7 +178,9 @@ class TripRoute
                 $hoursMinutes['hours'],
                 $hoursMinutes['minutes']
             );
+            return true;
         }
+        return false;
     }
 
     /**

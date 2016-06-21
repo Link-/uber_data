@@ -56,7 +56,9 @@ class TripRouteTest extends TestCase
                 $controlDateTime = $this->_tripRoute
                                         ->getPickupDate();
                 // Add the time
-                $this->_tripRoute->setOriginPickupDateTime($time);
+                $this->assertTrue(
+                    $this->_tripRoute->setOriginPickupDateTime($time)
+                );
                 $setDateTime = $this->_tripRoute->getOriginPickupDateTime();
                 // Make sure it's a DateTime instance
                 $this->assertInstanceOf(\DateTime::class, $setDateTime);
@@ -75,8 +77,9 @@ class TripRouteTest extends TestCase
                 break;
             // Negative test
             case false:
-                $this->expectException(GeneralException::class);
-                $this->_tripRoute->setOriginPickupDateTime($time);
+                $this->assertFalse(
+                    $this->_tripRoute->setOriginPickupDateTime($time)
+                );
                 break;
         }
     }
@@ -105,7 +108,9 @@ class TripRouteTest extends TestCase
                 $controlDateTime = $this->_tripRoute
                                         ->getPickupDate();
                 // Add the time
-                $this->_tripRoute->setDestDropoffDateTime($time);
+                $this->assertTrue(
+                    $this->_tripRoute->setDestDropoffDateTime($time)
+                );
                 $setDateTime = $this->_tripRoute->getDestDropoffDateTime();
                 // Make sure it's a DateTime instance
                 $this->assertInstanceOf(\DateTime::class, $setDateTime);
@@ -124,8 +129,9 @@ class TripRouteTest extends TestCase
                 break;
             // Negative test
             case false:
-                $this->expectException(GeneralException::class);
-                $this->_tripRoute->setDestDropoffDateTime($time);
+                $this->assertFalse(
+                    $this->_tripRoute->setDestDropoffDateTime($time)
+                );
                 break;
         }
     }
