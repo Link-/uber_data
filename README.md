@@ -1,15 +1,19 @@
 # Uber Crawler / Usage Analytics
 
     @version alpha-0.2.2
+    
+master
 
 [![Build Status](https://travis-ci.org/Link-/uber_data.svg?branch=master)](https://travis-ci.org/Link-/uber_data)
 [![Coverage Status](https://coveralls.io/repos/github/Link-/uber_data/badge.svg?branch=master)](https://coveralls.io/github/Link-/uber_data?branch=master)
 
+alpha-0.0.2
+
+[![Build Status](https://travis-ci.org/Link-/uber_data.svg?branch=alpha-0.2.2)](https://travis-ci.org/Link-/uber_data)
+
 ### Synopsis
 
-Uber web interface crawler / scraper - Convert the trips table into a CSV file
-
-## Scraper / Crawler
+Uber web interface crawler - Convert the trips table into a CSV file
 
 ### Installation & Configuration
 
@@ -37,6 +41,7 @@ Installation is very basic, just:
 3. Build your `App.php` configuration file:
 
 #### Using CLI
+
 This repository ships with a handy command-line interface companion named `uberc` - located at `./bin/uberc`
 
 1. Add `./bin` to your path with
@@ -56,40 +61,6 @@ This repository ships with a handy command-line interface companion named `uberc
     ```sh
     uberc analyze
     ```
-
-#### Manually
-
-  ```sh
-  cd src/Config
-  mv App.example.php App.php
-  nano App.php
-  ```
-
-1. Add your Uber Username and Password into the `App.php` file:
-
-    ```php
-    /**
-     * Uber Account Username
-     */
-    'username' => 'name@email.com',
-
-    /**
-     * Uber Account Password
-     */
-    'password' => 'mypassword',
-    ```
-
-2. Change the `data_storage_dir` and `parsed_data_dir` to where you would like to store the cached html files and the generated CSV file respectively.
-
-3. Adjust the `timezone` to your current location.
-
-### Execution
-
-Run the script as such:
-
-  ```sh
-  php src/index.php
-  ```
 
 ### Sample Output
 
