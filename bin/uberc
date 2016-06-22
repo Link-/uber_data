@@ -1,0 +1,27 @@
+#!/usr/bin/env php
+<?php
+
+use Symfony\Component\Console\Application as Application;
+use UberCrawler\Console\Commands\ConfigCommand as ConfigCommand;
+use UberCrawler\Console\Commands\AnalyzeCommand as AnalyzeCommand;
+
+// installed via composer?
+if (file_exists($a = __DIR__.'/../autoload.php')) {
+    require_once $a;
+} else {
+    require_once __DIR__.'/../src/vendor/autoload.php';
+}
+
+$app = new Application();
+
+$configCommandInstance  = new ConfigCommand();
+$analyzeCommandInstance = new AnalyzeCommand();
+
+// Push the default configuration from ConfigCommand
+// to AnalyzeCommand
+$analyzeCommandInstance->setDefaultConfigArray($configCommandInstance->getDefaultConfigurationArray());
+
+$app->add($configCommandInstance);
+$app->add($analyzeCommandInstance);
+
+$app->run();
