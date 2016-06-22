@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Uber </title>
+</head>
+<body>
+  <div class="content text--center soft--top">
+    <i class="icon icon_uber main_uber_logo"></i>
+    <div class="push-gutter--sides push-small--top">
+      <div id="login-content">
+        <div id="fb-root"></div>
+        <p class="primary-font primary-font--semibold background-line push--top push--bottom">
+          <span>Sign In</span>
+        </p>
+        <form method="post" class="form" id="login-form" novalidate>
+          <input type="hidden" name="_csrf_token" value="1466290348-01-lGJBTbT9pmNL-GLSMXXFpMEzb8IY5u7B9AEnCjBslFM=">
+          <input type="hidden" data-js="access-token" name="access_token" />
+          <a href="#" class="btn btn--full btn--facebook soft-small--sides" data-js="facebook-connect">
+            <span class="push--ends flush">Continue with Facebook</span>
+          </a>
+          <p class="primary-font primary-font--semibold background-line push--top push--bottom">
+            <span>or use email</span>
+          </p>
+          <div class="form-group push-tiny--top flush--bottom" id="input-container">
+            <input type="email"  name="email"
+            class="text-input square--bottom "
+            placeholder="Email Address"
+            value="" id="email" autofocus />
+          </div>
+          <div class="form-group push--bottom">
+            <input type="password" name="password"
+            class="text-input square--top "
+            placeholder="Password" id="password"/>
+          </div>
+          <div class="form-group push--bottom">
+            <input type="checkbox" id="checkbox-rememberme" class="hidden" checked />
+            <label class="checkbox" for="checkbox-rememberme">
+              Remember Me
+            </label>
+          </div>
+          <button class="btn btn--large btn--full" type="submit">Sign In</button>
+        </form>
+        <hr class="push--top push-small--bottom" id="signin-signup-separator"/>
+        <p class="text--center push-small--bottom">
+          <a href="https://login.uber.com/forgot-password" class="forgot-password">
+            Forgot Password
+          </a>
+        </p>
+        <p class="text--center">
+          Don&#39;t have an account?
+          <a id="sign_up_link" href="https://get.uber.com/go/?client_id=p-_T5elRZt1sENR4uHWDlmi0qCnGwOM7">
+            Sign Up
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
