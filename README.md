@@ -1,7 +1,7 @@
 # Uber Crawler / Usage Analytics
 
     @version alpha-0.2.2
-
+    
 master
 
 [![Build Status](https://travis-ci.org/Link-/uber_data.svg?branch=master)](https://travis-ci.org/Link-/uber_data)
@@ -13,9 +13,7 @@ alpha-0.0.2
 
 ### Synopsis
 
-Uber web interface crawler / scraper - Convert the trips table into a CSV file
-
-## Scraper / Crawler
+Uber web interface crawler - Convert the trips table into a CSV file
 
 ### Installation & Configuration
 
