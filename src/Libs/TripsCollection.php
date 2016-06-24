@@ -110,6 +110,21 @@ class TripsCollection implements \Iterator
     }
 
     /**
+     * Returns the TripDetails at a given position
+     *
+     * @param integer $position TripDetails Position
+     *
+     * @return TripDetails TripDetails at a given position
+     */
+    public function getTrip($position)
+    {
+        if (isset($this->_trips[$position])) {
+            return $this->_trips[$position];
+        }
+        return false;
+    }
+
+    /**
      * [addTrip description].
      *
      * @param TripDetails $trip [description]

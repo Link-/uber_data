@@ -119,6 +119,14 @@ EOD;
         $this->assertEquals($expectedBool, $this->_parser->parseDataTable());
         $tripsCollection = $this->_parser->getTripsCollection();
         $this->assertEquals($expectedSize, $tripsCollection->size());
+        // Test that the first trip's status is canceled
+        $firstTrip = $tripsCollection->getTrip(0);
+        // We need to make sure that the first trip is actually
+        // included in the TripsCollection - else we will get an offset
+        // error
+        if ($firstTrip) {
+            $this->assertEquals('Canceled', $firstTrip->getFareValue());
+        }
     }
 
     public function dataTableProvider()
@@ -135,63 +143,6 @@ EOD;
         return [
           [$goodHTML, false, 20],
           [$corruptHTML, true, 0],
-        ];
-    }
-
-    /**
-     * @dataProvider htmlProvider
-     */
-    public function testgetInnerHTML(
-        $html,
-        $parentId,
-        $element,
-        $numb,
-        $innerHTML
-    ) {
-    
-
-        // Load the HTML, then retrieve the instance
-        // of DomDocument and finally call the getInnerHTML
-        // on the element
-        $this->_parser->loadHTML($html);
-        $dom = $this->_parser->getDomDocument();
-        $listNodes = $dom->getElementById($parentId);
-        $this->assertEquals(
-            $innerHTML,
-            $this->_parser
-            ->getInnerHTML($listNodes->childNodes[$numb])
-        );
-    }
-
-    /**
-     * Provider of a basic HTML structure
-     * There seems to be a problem that I'm not able to
-     * identify the reason why it happens with the index
-     * of elements when retrieving childNodes
-     * the first element is 0 and the second is not 1 as
-     * expected but 2.
-     *
-     * @return [type] [description]
-     */
-    public function htmlProvider()
-    {
-        $htmlDoc = <<<EOD
-        <html>
-          <body>
-            <div id="parentDiv">
-              <ul id="list">
-                <li>Node1</li>
-                <li>Node2</li>
-                <li>Node3</li>
-              </ul>
-            </div>
-          </body>
-        </html>
-EOD;
-
-        return [
-          [$htmlDoc, 'list', 'li', 0, 'Node1'],
-          [$htmlDoc, 'list', 'li', 2, 'Node2'],
         ];
     }
 }

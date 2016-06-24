@@ -70,8 +70,12 @@ class TripDetailsTest extends TestCase
      */
     public function testsetFareValue()
     {
+        // Send an empty Fare Value
         $this->_tripDetails->setFareValue('');
-        $this->assertEquals($this->_tripDetails->getFareValue(), 'Free');
+        $this->assertEquals('Free', $this->_tripDetails->getFareValue());
+        // Do not set the Fare Value to begin with
+        $this->_tripDetails->setFareValue();
+        $this->assertEquals('Free', $this->_tripDetails->getFareValue());
     }
 
     /**
@@ -103,7 +107,7 @@ class TripDetailsTest extends TestCase
 
         $tripArray = $this->_tripDetails->toArray();
         $this->assertInternalType('array', $tripArray);
-        $this->assertEquals($tripArray, $expectedArray);
+        $this->assertEquals($expectedArray, $tripArray);
     }
 
     /**
@@ -119,7 +123,15 @@ class TripDetailsTest extends TestCase
             [
                 ['03/12/16', 'John', '$10.23', 'UberZ', 'Beirut', 'trip_id_123', 'Street Pickup 1', '5:30 PM', 'Street Dropoff 1', '6:03 PM'],
                 ['2016-03-12', 'John', '$10.23', 'UberZ', 'Beirut', 'trip_id_123', 'Street Pickup 1', '2016-03-12 17:30', 'Street Dropoff 1', '2016-03-12 18:03']
-            ]
+            ],
+            [
+                ['03/12/16', 'John', 'Canceled', 'UberZ', 'Beirut', 'trip_id_123', 'Street Pickup 1', '5:30 PM', 'Street Dropoff 1', '6:03 PM'],
+                ['2016-03-12', 'John', 'Canceled', 'UberZ', 'Beirut', 'trip_id_123', 'Street Pickup 1', '2016-03-12 17:30', 'Street Dropoff 1', '2016-03-12 18:03']
+            ],
+            [
+                ['03/12/16', 'John', '', 'UberZ', 'Beirut', 'trip_id_123', 'Street Pickup 1', '5:30 PM', 'Street Dropoff 1', '6:03 PM'],
+                ['2016-03-12', 'John', 'Free', 'UberZ', 'Beirut', 'trip_id_123', 'Street Pickup 1', '2016-03-12 17:30', 'Street Dropoff 1', '2016-03-12 18:03']
+            ],
         ];
     }
 }

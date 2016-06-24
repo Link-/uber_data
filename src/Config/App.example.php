@@ -28,14 +28,6 @@ class App
         'uber_trips_url' => 'https://riders.uber.com/trips',
 
         /**
-         * This is the number of trips list per page
-         * by default it is 20, but if more is listed
-         * make sure to change this number of your will
-         * get incomplete results
-         */
-        'trips_per_page' => 20,
-
-        /**
          * Storage Location for Session Data
          */
         'cookies_storage_file' => '/tmp/uber-cookies',

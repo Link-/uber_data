@@ -151,12 +151,13 @@ class TripDetails
      *
      * @param [type] $value [description]
      */
-    public function setFareValue($value)
+    public function setFareValue($value = '')
     {
         if (empty($value)) {
             // Fares can have an empty value
             // meaning it was a free ride
-            $value = 'Free';
+            $this->_fareValue = 'Free';
+            return;
         }
 
         $this->_fareValue = $value;

@@ -211,6 +211,13 @@ class Parser
             return true;
         }
 
+        // This will return the number childNodes within the tbody
+        // it will refer to the number of <tr> elements within the
+        // table i.e. the number of trips
+        $pageTripCount = $this->_DomXPath
+                              ->query('//*[@id="trips-table"]/tbody/tr')
+                              ->length;
+
         /**
          * This is the list of all XPath queries for all the needed elements
          * in the retrieved HTML
@@ -229,6 +236,8 @@ class Parser
                 => ['//*[@id="trips-table"]/tbody/tr[{:TRIP_N:}]/td[2]/text()','F'],
                 'driverName'
                 => ['//*[@id="trips-table"]/tbody/tr[{:TRIP_N:}]/td[3]/text()', 'F'],
+                'tripStatus'
+                => ['//*[@id="trips-table"]/tbody/tr[{:TRIP_N:}]/td[4]/div/text()', 'F'],
                 'fareValue'
                 => ['//*[@id="trips-table"]/tbody/tr[{:TRIP_N:}]/td[4]/text()', 'F'],
                 'carType'
@@ -248,12 +257,8 @@ class Parser
         /**
          * TODO: This is really bad --
          * Needs major rework
-         * Also, a note regarding the *2 that you see there, it's needed
-         * because for each trip we are going through 2 <tr> elements instead
-         * of 1 and we're incrementing the loop by 2 each time. Meaning if we
-         * 20 elements per page, we need to loop until 40
          */
-        for ($tripN = 1; $tripN < App::$APP_SETTINGS['trips_per_page']*2; $tripN += 2) {
+        for ($tripN = 1; $tripN < $pageTripCount; $tripN += 2) {
             // Create a new TripDetails Object
             $trip = new TripDetails();
             // Set the trip details
@@ -281,6 +286,10 @@ class Parser
                         case 'driverName':
                             $nodeText = $nodeList[0]->wholeText;
                             $trip->setDriverName($nodeText);
+                            break;
+                        case 'tripStatus':
+                            $nodeText = $nodeList[0]->wholeText;
+                            $trip->setFareValue($nodeText);
                             break;
                         case 'fareValue':
                             $nodeText = $nodeList[0]->wholeText;
@@ -332,28 +341,5 @@ class Parser
         }
 
         return $this->_tripsCollection->isEmpty();
-    }
-
-    /**
-     * Retrieves the innerHTML of a specific HTML element
-     * However, this is not being used in this release.
-     *
-     * @param [type] $node [description]
-     *
-     * @return [type] [description]
-     */
-    public function getInnerHTML($node)
-    {
-        $innerHTML = '';
-        $children = $node->childNodes;
-        if (count($children) > 0) {
-            foreach ($children as $child) {
-                $innerHTML .= $child->ownerDocument->saveXML($child);
-            }
-        } else {
-            $innerHTML .= $node->ownerDocument->saveXML($node);
-        }
-
-        return $innerHTML;
     }
 }
