@@ -61,13 +61,13 @@ This repository ships with a handy command-line interface companion named `uberc
 ### Sample Output
 
   ```text
-  2016-06-03,Logan,$7.73,uberX,Los Angeles,N.A
-  2016-06-03,John,$14.45,uberX,Los Angeles,N.A
-  2016-06-02,Mark,$4.70,uberX,Los Angeles,N.A
-  2016-06-02,Logan,Canceled,uberX,Los Angeles,N.A
-  2016-06-02,Morgan,$13.23,uberX,Los Angeles,N.A
-  2016-06-01,Sleimann,$4.79,uberX,Los Angeles,N.A
-  2016-06-01,George,$14.36,uberX,Los Angeles,N.A
+  2016-03-20,John,$4.00,uberX,"L.A",#trip-80aa31b4-0e90-43c0-863a-29939fd9585a,"Street Address, Country","2016-06-20 17:02","Destination Street Address, United States","2016-06-20 17:11"
+  2016-03-20,Christian,$5.45,uberX,"L.A",#trip-e6290590-e03a-4edb-9c21-bda18196ecf3,"Street Address, United States","2016-06-20 9:46","Destination Street Address, "L.A", United States","2016-06-20 10:13"
+  2016-02-17,Ali,$4.54,uberX,"L.A",#trip-080cfb67-17f6-46bc-87d2-4cf9fc4b3793,"Street Address, United States","2016-06-17 17:31","Destination Street Address, United States","2016-06-17 17:41"
+  2016-02-17,Mark,Canceled,uberX,"L.A",#trip-6e030662-9512-42bb-8cf1-230eb614a8c7,,N.A,,N.A
+  2016-02-16,Logan,$4.89,uberX,"L.A",#trip-d667af1c-d220-486d-b510-f8efc07ce1f5,"Street Address, United States","2016-06-16 15:09","Destination Street Address, United States","2016-06-16 15:24"
+  2016-02-16,Mohamad,$4.79,uberX,"L.A",#trip-ce16857c-f7b9-497a-86a7-382d9d6421f6,"Street Address, United States","2016-06-16 10:22","Destination Street Address, United States","2016-06-16 10:36"
+  2016-01-15,George,$4.73,uberX,"L.A",#trip-7360a6d6-4f4d-4881-8424-1245264d9649,"Street Address, United States","2016-06-15 17:35","Destination Street Address, United States","2016-06-15 17:49"
   ```
 
 ## Jupyter Notebook
