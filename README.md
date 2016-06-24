@@ -2,15 +2,10 @@
 
     @version alpha-0.2.2
     
-master
-
-[![Build Status](https://travis-ci.org/Link-/uber_data.svg?branch=master)](https://travis-ci.org/Link-/uber_data)
-[![Coverage Status](https://coveralls.io/repos/github/Link-/uber_data/badge.svg?branch=master)](https://coveralls.io/github/Link-/uber_data?branch=master)
-
-alpha-0.2.3
-
-[![Build Status](https://travis-ci.org/Link-/uber_data.svg?branch=alpha-0.2.3)](https://travis-ci.org/Link-/uber_data)
-[![Coverage Status](https://coveralls.io/repos/github/Link-/uber_data/badge.svg?branch=alpha-0.2.3)](https://coveralls.io/github/Link-/uber_data?branch=alpha-0.2.3)
+| Branch | Build Status | Coverage |
+| ------ | ------------ | -------- |
+| master | [![Build Status](https://travis-ci.org/mena-devs/slack_data_collector.svg?branch=master)](https://travis-ci.org/mena-devs/slack_data_collector) | [![Coverage Status](https://coveralls.io/repos/github/Link-/uber_data/badge.svg?branch=master)](https://coveralls.io/github/Link-/uber_data?branch=master) |
+| alpha-0.2.3 | [![Build Status](https://travis-ci.org/Link-/uber_data.svg?branch=alpha-0.2.3)](https://travis-ci.org/Link-/uber_data) | [![Coverage Status](https://coveralls.io/repos/github/Link-/uber_data/badge.svg?branch=alpha-0.2.3)](https://coveralls.io/github/Link-/uber_data?branch=alpha-0.2.3) |
 
 ### Synopsis
 
