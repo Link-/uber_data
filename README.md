@@ -167,3 +167,38 @@ Uber Data Anlysis v0.1 Notebook: [Uber-Data_Analysis-0.1.ipynb](https://github.c
 ![image](http://i.imgur.com/oUhMYtP.png)
 
 ![image](http://i.imgur.com/n3qeMc3.png)
+
+### Change Log
+
+#### alpha-0.2.3
+
+- Jupyter analysis notebook v0.2 released with 13 questions answered
+- Fixed a bug in TripDetails setFareValue()
+- Fixed a bug with the Parser retrieving empty elements from pages with less than 20 trips
+- Fixed a bug with the TripsCollection
+- Added getTrip() to TripsCollection to retrieve TripDetails by position number
+- Modified the sample html to include a Canceled trip and a free fare
+trip
+- parseDataTable() in Parser was completely changed and now the parsing happens using an XPaths
+- Unit tests for TripRoute were created
+- Unit tests for TripDetails were modified
+- Unit Tests for TripsStorage were modified
+- App.example.php was updated with new fields
+
+#### alpha-0.2.2
+
+- implement "config" and "analyze" commands thus allowing the generation of the configuration based on command line prompts and executes the crawling to generate analysis data files, making the whole process automated through the command line without the need to change code and files.
+- PSR-1 and PSR-2 compliance
+- Added a more detailed html sample file for the unit tests
+- Working on extracting more information with Parser from the HTML
+- Implemented TripRoute which will contain further trip information
+- Implemented unit tests for TripRoute
+- Minor tweaks to TripDetails
+- added getDefaultConfigurationArray() to ConfigCommand
+- added setDefaultConfigArray() to AnalyzeCommand
+- added verifyConfigFileExists() to AnalyzeCommand
+- uberc now tests for the existance of the App.php configuration file before executing, if it doesn't it throwns a warning message and halts execution
+
+#### alpha-0.2.1
+
+- First release
