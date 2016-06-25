@@ -285,11 +285,11 @@ class TripDetails
     {
         // Handle scenarios where Date and Time references are not
         // available
-        $pickupDate = ($this->_pickupDate) ? $this->_pickupDate->format('Y-m-d') : 'N.A';
+        $pickupDate = ($this->_pickupDate) ? $this->_pickupDate->format('Y-m-d') : '';
         
-        $pickupTime = ($this->_tripRoute->getOriginPickupDateTime()) ? $this->_tripRoute->getOriginPickupDateTime()->format('Y-m-d G:i') : 'N.A';
+        $pickupTime = ($this->_tripRoute->getOriginPickupDateTime()) ? $this->_tripRoute->getOriginPickupDateTime()->format('Y-m-d G:i') : '';
 
-        $dropoffTime = ($this->_tripRoute->getDestDropoffDateTime()) ? $this->_tripRoute->getDestDropoffDateTime()->format('Y-m-d G:i') : 'N.A';
+        $dropoffTime = ($this->_tripRoute->getDestDropoffDateTime()) ? $this->_tripRoute->getDestDropoffDateTime()->format('Y-m-d G:i') : '';
 
         return [
             $pickupDate,
